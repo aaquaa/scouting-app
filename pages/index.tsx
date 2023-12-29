@@ -161,8 +161,6 @@ export default function Home() {
         </form>
       </main>
       <footer>
-this is cool
-        
       </footer>
     </div>
   )
