@@ -102,8 +102,8 @@ export default function Home() {
                 Reset
               </button>
             </div>
-                <div
-                  onChange={(v) => setTheme(v.target.value)}
+                <div>
+                  setTheme(v.target.value)}
                   value={'light'}
                 </div>
           </div>
