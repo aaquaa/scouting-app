@@ -54,6 +54,18 @@
           "defaultValue": false,
           "code": "humanPlayer"
         }
+        {
+          "title": "Preload?",
+          "type": "select",
+          "required": true,
+          "code": "preload",
+          "choices": {
+            "cone": "cone",
+            "cube": "cube",
+            "none": "none",
+          },
+          "defaultValue": "none"
+        },
       ]
     },
     {
