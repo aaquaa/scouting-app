@@ -53,7 +53,7 @@
           "required": false,
           "defaultValue": false,
           "code": "humanPlayer"
-        }
+        },
         {
           "title": "Preload?",
           "type": "select",
@@ -65,7 +65,7 @@
             "none": "none",
           },
           "defaultValue": "none"
-        },
+        }
       ]
     },
     {
