@@ -102,61 +102,6 @@ export default function Home() {
                 Reset
               </button>
             </div>
-            <div className="mb-4 flex flex-col justify-center rounded bg-white shadow-md dark:bg-gray-600">
-              <Button
-                variant={Variant.Secondary}
-                className="m-2"
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    formData.sections
-                      .map((s) => s.fields)
-                      .flat()
-                      .map((f) => f.title)
-                      .join('\t')
-                  )
-                }
-              >
-                Copy Column Names
-              </Button>
-              <Button
-                variant={Variant.Secondary}
-                className="m-2"
-                onClick={() => downloadConfig()}
-              >
-                Download Config
-              </Button>
-              <label className="m-2 flex cursor-pointer flex-row justify-center rounded bg-gray-500 py-2 text-center font-bold text-white shadow-sm hover:bg-gray-600">
-                <span className="text-base leading-normal">Upload Config</span>
-                <input
-                  type="file"
-                  className="hidden"
-                  accept=".json"
-                  onChange={(e) => uploadConfig(e)}
-                />
-              </label>
-              <div className="m-2 flex flex-col justify-start bg-gray-500 p-2">
-                <div className="rounded-t pb-2 text-left font-bold text-white">
-                  Theme
-                </div>
-                <select
-                  className="rounded bg-white px-4 py-2 dark:bg-gray-700 dark:text-white"
-                  name="Theme"
-                  id="theme"
-                  onChange={(v) => setTheme(v.target.value)}
-                  value={theme}
-                >
-                  <option key={'system'} value={'system'}>
-                    System
-                  </option>
-                  <option key={'dark'} value={'dark'}>
-                    Dark
-                  </option>
-                  <option key={'light'} value={'light'}>
-                    Light
-                  </option>
-                </select>
-              </div>
-            </div>
           </div>
         </form>
       </main>
