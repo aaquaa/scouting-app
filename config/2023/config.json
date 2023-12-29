@@ -1,7 +1,7 @@
 {
   "$schema": "../schema.json",
-  "title": "QRScout",
-  "page_title": "Charged Up",
+  "title": "FRC Scout",
+  "page_title": "Crescendo",
   "sections": [
     {
       "name": "Prematch",
