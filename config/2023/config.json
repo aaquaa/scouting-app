@@ -48,6 +48,18 @@
           "code": "noShow"
         },
         {
+          "title": "Preload?",
+          "type": "select",
+          "required": true,
+          "code": "preload",
+          "choices": {
+            "cone": "cone",
+            "cube": "cube",
+            "none": "none",
+          },
+          "defaultValue": "none"
+        },
+        {
           "title": "Using Human Player",
           "type": "boolean",
           "required": false,
