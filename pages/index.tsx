@@ -102,10 +102,6 @@ export default function Home() {
                 Reset
               </button>
             </div>
-                <div>
-                  setTheme(v.target.value)}
-                  value={'light'}
-                </div>
           </div>
         </form>
       </main>
