@@ -101,9 +101,6 @@ export default function Home() {
               >
                 Reset
               </button>
-                <div className="rounded-t pb-2 text-left font-bold text-black">
-                  Theme
-                </div>
                 <select
                   className="rounded bg-white px-4 py-2 dark:bg-gray-700 dark:text-white"
                   name="Theme"
@@ -111,12 +108,6 @@ export default function Home() {
                   onChange={(v) => setTheme(v.target.value)}
                   value={'light'}
                 >
-                  <option key={'light'} value={'light'}>
-                    Light
-                  </option>
-                  <option key={'system'} value={'system'}>
-                    System
-                  </option>
                 </select>
               </div>
           </div>
