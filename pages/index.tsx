@@ -102,7 +102,6 @@ export default function Home() {
                 Reset
               </button>
                 <select
-                  className="rounded bg-white px-4 py-2 dark:bg-gray-700 dark:text-white"
                   name="Theme"
                   id="theme"
                   onChange={(v) => setTheme(v.target.value)}
