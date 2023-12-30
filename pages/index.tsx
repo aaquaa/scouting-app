@@ -114,13 +114,13 @@ export default function Home() {
                   value={theme}
                 >
                   <option key={'light'} value={'light'}>
-                    System
+                    Light
                   </option>
                   <option key={'dark'} value={'dark'}>
                     Dark
                   </option>
                   <option key={'system'} value={'system'}>
-                    Light
+                    System
                   </option>
                 </select>
               </div>
