@@ -12,8 +12,6 @@ import {
 } from '../components/store/store'
 import { useTheme } from 'next-themes'
 
-const onChange={(v) => setTheme(v.target.value)}
-const value={'light'}
 
 export default function Home() {
   const formData = useQRScoutState((state) => state.formData)
@@ -31,7 +29,10 @@ export default function Home() {
           (f.value === null || f.value === undefined || f.value === ``)
       )
   }, [formData])
-
+  
+  const onChange={(v) => setTheme(v.target.value)}
+  const value={'light'}
+  
   function getFieldValue(code: string): any {
     return formData.sections
       .map((s) => s.fields)
