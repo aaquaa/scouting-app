@@ -30,9 +30,6 @@ export default function Home() {
       )
   }, [formData])
   
-  const onChange={(v) => setTheme(v.target.value)}
-  const value={'light'}
-  
   function getFieldValue(code: string): any {
     return formData.sections
       .map((s) => s.fields)
