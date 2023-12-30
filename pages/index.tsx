@@ -101,6 +101,7 @@ export default function Home() {
               >
                 Reset
               </button>
+              <div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md dark:bg-gray-600">
                 <div className="rounded-t pb-2 text-left font-bold text-black">
                   Theme
                 </div>
@@ -121,6 +122,7 @@ export default function Home() {
                     System
                   </option>
                 </select>
+              </div>
               </div>
           </div>
         </form>
