@@ -101,7 +101,6 @@ export default function Home() {
               >
                 Reset
               </button>
-              <div className="m-2 flex flex-col justify-start bg-white shadow-md p-2">
                 <div className="rounded-t pb-2 text-left font-bold text-black">
                   Theme
                 </div>
@@ -123,7 +122,6 @@ export default function Home() {
                   </option>
                 </select>
               </div>
-            </div>
           </div>
         </form>
       </main>
