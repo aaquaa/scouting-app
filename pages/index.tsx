@@ -101,8 +101,8 @@ export default function Home() {
               >
                 Reset
               </button>
-              <div className="mb-4 flex flex-col justify-center rounded bg-white shadow-md dark:bg-gray-600">
-              <div className="m-2 flex flex-col justify-start bg-gray-500 p-2">
+              <div className="mb-4 flex flex-col justify-center rounded bg-white shadow-md">
+              <div className="m-2 flex flex-col justify-start bg-white shadow-md p-2">
                 <div className="rounded-t pb-2 text-left font-bold text-white">
                   Theme
                 </div>
