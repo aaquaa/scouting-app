@@ -102,13 +102,6 @@ export default function Home() {
               >
                 Reset
               </button>
-                <select
-                  name="Theme"
-                  id="theme"
-                  onChange={(v) => setTheme(v.target.value)}
-                  value={'light'}
-                >
-                </select>
               </div>
           </div>
         </form>
