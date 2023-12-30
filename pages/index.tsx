@@ -12,6 +12,9 @@ import {
 } from '../components/store/store'
 import { useTheme } from 'next-themes'
 
+const onChange={(v) => setTheme(v.target.value)}
+const value={'light'}
+
 export default function Home() {
   const formData = useQRScoutState((state) => state.formData)
   const { theme, setTheme } = useTheme()
