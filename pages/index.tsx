@@ -113,6 +113,12 @@ export default function Home() {
                   value={theme}
                 >
                   <option key={'light'} value={'light'}>
+                    System
+                  </option>
+                  <option key={'dark'} value={'dark'}>
+                    Dark
+                  </option>
+                  <option key={'system'} value={'system'}>
                     Light
                   </option>
                 </select>
