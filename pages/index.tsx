@@ -123,7 +123,6 @@ export default function Home() {
                   </option>
                 </select>
               </div>
-              </div>
             </div>
           </div>
         </form>
