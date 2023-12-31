@@ -60,7 +60,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen py-2">
+    <div className="min-h-screen py-2 dark:bg-white">
       <Head>
         <title>{formData.title}</title>
         <link rel="icon" href="/favicon.ico" />
