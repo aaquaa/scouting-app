@@ -102,7 +102,6 @@ export default function Home() {
                 Reset
               </button>
               <div className="mb-4 flex flex-col justify-center rounded bg-white shadow-md dark:bg-gray-600">
-              <div className="m-2 flex flex-col justify-start bg-gray-500 p-2">
                 <div className="rounded-t pb-2 text-left font-bold text-white">
                   Theme
                 </div>
@@ -111,7 +110,7 @@ export default function Home() {
                   name="Theme"
                   id="theme"
                   onChange={(v) => setTheme(v.target.value)}
-                  value={theme}
+                  value={light}
                 >
                   <option key={'system'} value={'system'}>
                     System
@@ -123,7 +122,6 @@ export default function Home() {
                     Light
                   </option>
                 </select>
-              </div>
             </div>
             </div>
           </div>
