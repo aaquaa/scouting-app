@@ -62,7 +62,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen py-2 dark:bg-gray-700">
+    <div className="min-h-screen py-2 dark:bg-gray-900">
       <Head>
         <title>{formData.title}</title>
         <link rel="icon" href="/favicon.ico" />
@@ -70,7 +70,7 @@ export default function Home() {
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-4 text-center">
         <h1 className="font-sans text-6xl font-bold">
-          <div className={`font-rhr text-red-rhr`}>{formData.page_title}</div>
+          <div className={`font-rhr text-red-rhr dark:text-white`}>{formData.page_title}</div>
         </h1>
         <QRModal
           show={showQR}
