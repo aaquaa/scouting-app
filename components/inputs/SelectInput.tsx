@@ -13,7 +13,7 @@ export default function SelectInput(data: SelectInputProps) {
   }
   return (
     <select
-      className="w-full rounded bg-white px-4 py-2"
+      className="w-full rounded bg-white px-4 py-2 dark:text-black"
       name={data.title}
       id={data.title}
       onChange={handleSelect}
