@@ -10,12 +10,10 @@ import {
   uploadConfig,
   useQRScoutState,
 } from '../components/store/store'
-import { useTheme } from 'next-themes'
 
 
 export default function Home() {
   const formData = useQRScoutState((state) => state.formData)
-  const { theme, setTheme } = useTheme()
 
   const [showQR, setShowQR] = useState(false)
 
@@ -63,7 +61,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen py-2 dark:bg-gray-700">
+    <div className="min-h-screen py-2">
       <Head>
         <title>{formData.title}</title>
         <link rel="icon" href="/favicon.ico" />
@@ -86,9 +84,9 @@ export default function Home() {
               return <Section key={section.name} name={section.name} />
             })}
 
-            <div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md dark:bg-gray-600">
+            <div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md">
               <button
-                className="focus:shadow-outline mx-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-red-rhr"
+                className="focus:shadow-outline mx-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300"
                 type="button"
                 onClick={() => setShowQR(true)}
                 disabled={missingRequiredFields.length > 0}
@@ -96,7 +94,7 @@ export default function Home() {
                 Submit
               </button>
               <button
-                className="focus:shadow-outline mx-2 my-6 rounded border border-red-rhr bg-white py-2 font-bold uppercase text-red-rhr hover:bg-red-200 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"
+                className="focus:shadow-outline mx-2 my-6 rounded border border-red-rhr bg-white py-2 font-bold uppercase text-red-rhr hover:bg-red-200 focus:outline-none"
                 type="button"
                 onClick={() => resetSections()}
               >
