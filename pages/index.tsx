@@ -62,7 +62,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen py-2 dark:bg-black">
+    <div className="min-h-screen py-2 dark:bg-bac-rhr">
       <Head>
         <title>{formData.title}</title>
         <link rel="icon" href="/favicon.ico" />
@@ -87,7 +87,7 @@ export default function Home() {
 
             <div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md dark:bg-gray-600">
               <button
-                className="focus:shadow-outline mx-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-red-rhr"
+                className="focus:shadow-outline mx-2 rounded bg-gray-900 py-6 px-6 font-bold uppercase text-white hover:bg-green-700 focus:shadow-lg focus:outline-none disabled:bg-gray-600 dark:bg-red-rhr"
                 type="button"
                 onClick={() => setShowQR(true)}
                 disabled={missingRequiredFields.length > 0}
@@ -95,7 +95,7 @@ export default function Home() {
                 Submit
               </button>
               <button
-                className="focus:shadow-outline mx-2 my-6 rounded border border-red-rhr bg-white py-2 font-bold uppercase text-red-rhr hover:bg-red-200 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"
+                className="focus:shadow-outline mx-2 my-6 rounded border bg-white py-2 font-bold uppercase text-black hover:bg-red-500 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"
                 type="button"
                 onClick={() => resetSections()}
               >
