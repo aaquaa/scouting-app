@@ -32,7 +32,7 @@ export default function CounterInput(data: CounterInputProps) {
       >
         -
       </button>
-      <h2 className="px-4 text-2xl">{data.value}</h2>
+      <h2 className="px-4 text-2xl dark:text-black">{data.value}</h2>
       <button
         className="focus:shadow-outline w-8 rounded bg-gray-500 text-2xl  text-white hover:bg-blue-700 focus:outline-none"
         type="button"
