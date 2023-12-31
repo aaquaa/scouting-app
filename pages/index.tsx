@@ -102,7 +102,7 @@ export default function Home() {
                 Reset
               </button>
               <div className="m-2 flex flex-col justify-start bg-white p-2">
-                <div className="rounded-t pb-2 text-left font-bold text-white">
+                <div className="rounded-t pb-2 text-left font-bold text-black">
                   Theme
                 </div>
                 <select
