@@ -10,11 +10,9 @@ import {
   uploadConfig,
   useQRScoutState,
 } from '../components/store/store'
-import { useTheme } from 'next-themes'
 
 export default function Home() {
   const formData = useQRScoutState((state) => state.formData)
-  const { theme, setTheme } = useTheme()
 
   const [showQR, setShowQR] = useState(false)
 
