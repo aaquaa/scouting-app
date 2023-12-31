@@ -10,7 +10,7 @@ export default function InputCard(
   props: React.PropsWithChildren<InputCardProps>
 ) {
   return (
-    <div className="mx-1 rounded bg-white leading-tight shadow-sm dark:bg-gray-500">
+    <div className="mx-1 rounded bg-white leading-tight shadow-sm">
       <div className="flex flex-row justify-between rounded-t bg-gray-300">
         <p className="pl-2 text-left text-xs font-bold uppercase dark:text-black">
           {props.title}
