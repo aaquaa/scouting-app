@@ -10,10 +10,11 @@ import {
   uploadConfig,
   useQRScoutState,
 } from '../components/store/store'
-
+import { useTheme } from 'next-themes'
 
 export default function Home() {
   const formData = useQRScoutState((state) => state.formData)
+  const { theme, setTheme } = useTheme()
 
   const [showQR, setShowQR] = useState(false)
 
@@ -27,7 +28,7 @@ export default function Home() {
           (f.value === null || f.value === undefined || f.value === ``)
       )
   }, [formData])
-  
+
   function getFieldValue(code: string): any {
     return formData.sections
       .map((s) => s.fields)
@@ -61,7 +62,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen py-2">
+    <div className="min-h-screen py-2 dark:bg-gray-700">
       <Head>
         <title>{formData.title}</title>
         <link rel="icon" href="/favicon.ico" />
@@ -84,9 +85,9 @@ export default function Home() {
               return <Section key={section.name} name={section.name} />
             })}
 
-            <div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md">
+            <div className="mb-4 flex flex-col justify-center rounded bg-white py-2 shadow-md dark:bg-gray-600">
               <button
-                className="focus:shadow-outline mx-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300"
+                className="focus:shadow-outline mx-2 rounded bg-gray-700 py-6 px-6 font-bold uppercase text-white hover:bg-gray-700 focus:shadow-lg focus:outline-none disabled:bg-gray-300 dark:bg-red-rhr"
                 type="button"
                 onClick={() => setShowQR(true)}
                 disabled={missingRequiredFields.length > 0}
@@ -94,13 +95,37 @@ export default function Home() {
                 Submit
               </button>
               <button
-                className="focus:shadow-outline mx-2 my-6 rounded border border-red-rhr bg-white py-2 font-bold uppercase text-red-rhr hover:bg-red-200 focus:outline-none"
+                className="focus:shadow-outline mx-2 my-6 rounded border border-red-rhr bg-white py-2 font-bold uppercase text-red-rhr hover:bg-red-200 focus:outline-none dark:bg-gray-500 dark:text-white dark:hover:bg-gray-700"
                 type="button"
                 onClick={() => resetSections()}
               >
                 Reset
               </button>
+              <div className="mb-4 flex flex-col justify-center rounded bg-white shadow-md dark:bg-gray-600">
+              <div className="m-2 flex flex-col justify-start bg-gray-500 p-2">
+                <div className="rounded-t pb-2 text-left font-bold text-white">
+                  Theme
+                </div>
+                <select
+                  className="rounded bg-white px-4 py-2 dark:bg-gray-700 dark:text-white"
+                  name="Theme"
+                  id="theme"
+                  onChange={(v) => setTheme(v.target.value)}
+                  value={theme}
+                >
+                  <option key={'system'} value={'system'}>
+                    System
+                  </option>
+                  <option key={'dark'} value={'dark'}>
+                    Dark
+                  </option>
+                  <option key={'light'} value={'light'}>
+                    Light
+                  </option>
+                </select>
               </div>
+            </div>
+            </div>
           </div>
         </form>
       </main>
