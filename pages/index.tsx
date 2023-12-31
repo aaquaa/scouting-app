@@ -110,7 +110,7 @@ export default function Home() {
                   name="Theme"
                   id="theme"
                   onChange={(v) => setTheme(v.target.value)}
-                  value={light}
+                  value={theme}
                 >
                   <option key={'system'} value={'system'}>
                     System
