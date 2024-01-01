@@ -17,6 +17,6 @@ body {
 }
 
 @font-face {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto-Thin';
   src: url('../public/fonts/Roboto-Thin.ttf');
 }
