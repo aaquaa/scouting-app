@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        rhr: ['"SF Sports Night"'],
+        rhr: ['"Roboto"'],
         'rhr-ns': ['"SF Sports Night NS"'],
       },
       colors: {
