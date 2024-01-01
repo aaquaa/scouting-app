@@ -8,7 +8,7 @@ body {
 
 @font-face {
   font-family: 'SF Sports Night';
-  src: url('../public/fonts/SF Sports Night.ttf');
+  src: url('SF Sports Night.ttf');
 }
 
 @font-face {
