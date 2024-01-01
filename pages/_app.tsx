@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
         />
-        <meta name="description" content="Description" />
+        <meta name="description" content="Team 3132 Thunder Down Under" />
         <meta name="keywords" content="Keywords" />
         <title>Next.js PWA Example</title>
 
