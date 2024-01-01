@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       fontFamily: {
         rhr: ['"Roboto"'],
-        'rhr-ns': ['"SF Sports Night NS"'],
+        'rhr-ns': ['"Roboto"'],
       },
       colors: {
         red: { rhr: '#000000' },
