@@ -6,8 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        rhr: ['"Roboto"'],
-        'rhr-ns': ['"Roboto"'],
+        rhr: ['"Roboto-Thin"'],
+        'rhr-ns': ['"Roboto-Thin"'],
       },
       colors: {
         red: { rhr: '#000000' },
