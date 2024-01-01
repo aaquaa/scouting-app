@@ -15,3 +15,8 @@ body {
   font-family: 'SF Sports Night NS';
   src: url('../public/fonts/SF Sports Night NS.ttf');
 }
+
+@font-face {
+  font-family: 'Roboto', sans-serif;
+  src: url('../public/fonts/Roboto-Thin.ttf');
+}
