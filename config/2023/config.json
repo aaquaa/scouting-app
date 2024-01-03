@@ -325,6 +325,13 @@
           "required": false
         },
         {
+          "code": "ac",
+          "title": "All information is accurate",
+          "type": "boolean",
+          "defaultValue": true,
+          "required": false
+        },
+        {
           "code": "co",
           "title": "Comments",
           "type": "text",
