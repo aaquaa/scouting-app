@@ -67,7 +67,7 @@ export default function Home() {
       </Head>
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-4 text-center">
-        <h1 className="font-sans text-6xl font-bold">
+        <h1 className="font-sans text-6xl">
           <div className={`font-rhr text-black`}>{formData.page_title}</div>
         </h1>
         <QRModal
