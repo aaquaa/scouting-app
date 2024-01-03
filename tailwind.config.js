@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        rhr: ['"Pistara"'],
+        rhr: ['"Lato-Regular"'],
         'rhr-ns': ['"Roboto-Thin"'],
       },
       colors: {

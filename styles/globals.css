@@ -25,3 +25,8 @@ body {
   font-family: 'Pistara';
   src: url('../public/fonts/Pistara.ttf');
 }
+
+@font-face {
+  font-family: 'Lato-Regular';
+  src: url('../public/fonts/Lato-Regular.ttf');
+}
