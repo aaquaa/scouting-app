@@ -311,6 +311,13 @@
           "required": false
         },
         {
+          "code": "de",
+          "title": "Dropped More Than 2 Game Elements",
+          "type": "boolean",
+          "defaultValue": false,
+          "required": false
+        },
+        {
           "code": "cf",
           "title": "Yellow/Red Card",
           "type": "boolean",
