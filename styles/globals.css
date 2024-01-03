@@ -30,3 +30,57 @@ body {
   font-family: 'Lato-Regular';
   src: url('../public/fonts/Lato-Regular.ttf');
 }
+
+/* Demo styles */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: grid;
+  place-items: end start;
+  font-family: system-ui, sans-serif;
+  padding: 1.5rem;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+}
+
+input[type="color"] {
+  --size: 2em;
+  flex-shrink: 0;
+  appearance: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  height: var(--size);
+  width: var(--size);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+}
+
+input[type="color" i]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color" i]::-webkit-color-swatch {
+  border-radius: 50%;
+}
+
+input[type="color" i]::-moz-color-swatch {
+  border-radius: 50%;
+}
+
+::-webkit-color-swatch,
+::-moz-color-swatch {
+  border-color: transparent;
+}

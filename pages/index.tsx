@@ -11,6 +11,11 @@ import {
   useQRScoutState,
 } from '../components/store/store'
 
+<><label>
+  <input type="color" id="click-spark-color" name="click-spark-color" />
+  spark color
+</label><click-spark></click-spark></>
+
 export default function Home() {
   const formData = useQRScoutState((state) => state.formData)
 
