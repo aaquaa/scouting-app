@@ -312,7 +312,7 @@
         },
         {
           "code": "de",
-          "title": "Dropped More Than 2 Game Elements",
+          "title": "Dropped more than 2 piano keys",
           "type": "boolean",
           "defaultValue": false,
           "required": false
