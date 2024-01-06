@@ -9,7 +9,7 @@ import {
   resetSections,
   uploadConfig,
   useQRScoutState,
-} from '../components/store/store'
+} from '../components/store/store'xt
 
 export default function Home() {
   const formData = useQRScoutState((state) => state.formData)
