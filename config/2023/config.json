@@ -48,23 +48,11 @@
           "code": "noShow"
         },
         {
-          "title": "Using Human Player",
-          "type": "boolean",
-          "required": false,
-          "defaultValue": false,
-          "code": "humanPlayer"
-        },
-        {
           "title": "Preload",
-          "type": "select",
+          "type": "boolean",
           "required": true,
-          "code": "pl",
-          "choices": {
-            "Cone": "Cone",
-            "Cube": "Cube",
-            "None": "None"
-          },
-          "defaultValue": "None"
+          "defaultValue": true,
+          "code": "pl"
         }
       ]
     },
@@ -75,86 +63,42 @@
           "title": "Starting Location",
           "type": "select",
           "choices": {
-            "left": "Left",
+            "left": "Far",
             "middle": "Middle",
-            "right": "Right"
+            "right": "Near"
           },
           "defaultValue": "left",
           "required": false,
           "code": "autoStart"
         },
         {
-          "code": "am",
-          "title": "Mobility?",
+          "code": "al",
+          "title": "Leave?",
           "type": "boolean",
           "defaultValue": false,
           "required": false
         },
         {
-          "code": "auc",
-          "title": "Upper Cone Scored",
+          "code": "aan",
+          "title": "Amp Note Scored",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
+          "max": 11,
           "required": false
         },
         {
-          "code": "aucm",
-          "title": "Middle Cone Scored",
+          "code": "asn",
+          "title": "Speaker Note Scored",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
+          "max": 11,
           "required": false
         },
         {
-          "code": "amc",
-          "title": "Lower Cone Scored",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
-          "required": false
-        },
-        {
-          "code": "amcm",
-          "title": "Upper Cube Scored",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
-          "required": false
-        },
-        {
-          "code": "alc",
-          "title": "Middle Cube Scored",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
-          "required": false
-        },
-        {
-          "code": "alcm",
-          "title": "Lower Cube Scored",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
-          "required": false
-        },
-        {
-          "code": "ac",
-          "title": "Picked up more Cube/Cone?",
-          "type": "boolean",
-          "defaultValue": false,
-          "required": false
-        },
-        {
-          "code": "ad",
-          "title": "Docked",
-          "type": "boolean",
-          "defaultValue": false,
-          "required": false
-        },
-        {
-          "code": "ae",
-          "title": "Engaged",
+          "code": "ah",
+          "title": "Ends Holding Note?",
           "type": "boolean",
           "defaultValue": false,
           "required": false
@@ -165,72 +109,43 @@
       "name": "Teleop",
       "fields": [
         {
-          "code": "tu",
-          "title": "Upper Cone Scored",
+          "code": "an",
+          "title": "Amp Note Scored",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
+          "max": 45,
           "required": false
         },
         {
-          "code": "tm",
-          "title": "Middle Cone Scored",
+          "code": "sn",
+          "title": "Speaker Note Scored",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
+          "max": 45,
           "required": false
         },
         {
-          "code": "tf",
-          "title": "Lower Cone Scored",
+          "code": "asn",
+          "title": "Amplified Speaker Note Scored",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
+          "max": 45,
           "required": false
         },
         {
-          "code": "to",
-          "title": "Upper Cube Scored",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
-          "required": false
-        },
-        {
-          "code": "tl",
-          "title": "Middle Cube Scored",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
-          "required": false
-        },
-        {
-          "code": "tn",
-          "title": "Lower Cube Scored",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
-          "required": false
-        },
-        {
-          "code": "cl",
-          "title": "Pick up Cube/Cone where",
+          "code": "nl",
+          "title": "Where can it pick up notes?",
           "type": "select",
           "choices": {
-            "SUBSTATION": "Substation",
             "GROUND": "Ground",
+            "SOURCE": "Source",
             "BOTH": "Both",
-            "X": "Not Attempted"
+            "NONE": "Not Attempted"
           },
-          "defaultValue": "X",
-          "required": false
-        },
-        {
-          "code": "tv",
-          "title": "Links",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
+          "defaultValue": "NONE",
           "required": false
         }
       ]
@@ -239,32 +154,55 @@
       "name": "Endgame",
       "fields": [
         {
-          "code": "be",
-          "title": "Attempted before Endgame",
+          "code": "et",
+          "title": "Attempted before 30 seconds",
           "type": "boolean",
           "defaultValue": false,
           "required": false
         },
         {
-          "code": "cl",
-          "title": "Charge Station",
+          "code": "es",
+          "title": "Stage",
           "type": "select",
           "choices": {
-            "DOCK": "Docked",
-            "DOCK ENGAGE": "Docked and Engaged",
-            "PARKED": "Parked",
-            "X": "Not Attempted"
+            "PARK": "Park",
+            "ONSTAGE": "Onstage (Not Spotlit)",
+            "ONSTAGE_SPOTLIT": "Onstage (Spotlit)",
+            "NONE": "Not Attempted"
           },
-          "defaultValue": "X",
+          "defaultValue": "NONE",
           "required": false
         },
         {
-          "code": "cn",
-          "title": "# of alliance bots docked",
+          "code": "esh",
+          "title": "Amount of robots on one single chain",
           "type": "counter",
           "defaultValue": 0,
+          "min": 0,
+          "max": 3,
           "required": false
-        }
+        },
+        {
+          "code": "esl",
+          "title": "Where on the chain did it hang?",
+          "type": "select",
+          "choices": {
+            "LEFT_OR_RIGHT": "Left or Right",
+            "MIDDLE": "Middle",
+            "NONE": "Not Attempted"
+          },
+          "defaultValue": "NONE",
+          "required": false
+        },
+        {
+          "code": "etn",
+          "title": "Trap Note Scored",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 3,
+          "required": false
+        },
       ]
     },
     {
@@ -278,9 +216,9 @@
             "1": "Not Effective",
             "2": "Average",
             "3": "Very Effective",
-            "x": "Not Observed"
+            "NONE": "Not Observed"
           },
-          "defaultValue": "x",
+          "defaultValue": "NONE",
           "required": false
         },
         {
@@ -291,9 +229,9 @@
             "1": "Not Effective",
             "2": "Average",
             "3": "Very Effective",
-            "x": "Not Observed"
+            "NONE": "Not Observed"
           },
-          "defaultValue": "x",
+          "defaultValue": "NONE",
           "required": false
         },
         {
@@ -312,7 +250,7 @@
         },
         {
           "code": "de",
-          "title": "Dropped more than 2 piano keys",
+          "title": "Dropped/Missed more than 2 notes",
           "type": "boolean",
           "defaultValue": false,
           "required": false
@@ -322,6 +260,39 @@
           "title": "Yellow/Red Card",
           "type": "boolean",
           "defaultValue": false,
+          "required": false
+        },
+        {
+          "code": "cb",
+          "title": "Coopertition Bonus",
+          "type": "boolean",
+          "defaultValue": false,
+          "required": false
+        },
+        {
+          "code": "rp",
+          "title": "Ranking Points",
+          "type": "select",
+          "choices": {
+            "MELODY": "Melody",
+            "ENSEMBLE": "Ensemble",
+            "BOTH": "Both",
+            "NONE": "None"
+          },
+          "defaultValue": "NONE",
+          "required": false
+        },
+        {
+          "code": "wlt",
+          "title": "Win/Loss",
+          "type": "select",
+          "choices": {
+            "X": " ",
+            "WIN": "Win",
+            "LOSS": "Loss",
+            "TIE": "Tie"
+          },
+          "defaultValue": "X",
           "required": false
         },
         {
@@ -336,20 +307,9 @@
           "title": "Comments",
           "type": "text",
           "min": 0,
-          "max": 50,
+          "max": 100,
           "required": false
-        },        
-        {
-          "title": "is tdu's strat team cool",
-          "type": "select",
-          "required": true,
-          "code": "cool",
-          "choices": {
-            "YES1": "Yes",
-            "YES2": "Yes"
-          },
-          "defaultValue": "YES1"
-        }
+        },
       ]
     }
   ]
