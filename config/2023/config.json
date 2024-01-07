@@ -175,7 +175,7 @@
         },
         {
           "code": "esh",
-          "title": "No. of robots on one single chain",
+          "title": "No. of robots on single chain",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
