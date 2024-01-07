@@ -65,9 +65,10 @@
           "choices": {
             "left": "Far",
             "middle": "Middle",
-            "right": "Near"
+            "right": "Near",
+            "x": " "
           },
-          "defaultValue": "left",
+          "defaultValue": "x",
           "required": false,
           "code": "autoStart"
         },
@@ -297,12 +298,12 @@
           "title": "Win/Loss",
           "type": "select",
           "choices": {
-            "X": " ",
+            "x": " ",
             "WIN": "Win",
             "LOSS": "Loss",
             "TIE": "Tie"
           },
-          "defaultValue": "X",
+          "defaultValue": "x",
           "required": false
         },
         {
