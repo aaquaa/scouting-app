@@ -281,6 +281,12 @@
           "required": false
         },
         {
+          "title": "Penalty Points",
+          "type": "number",
+          "required": false,
+          "code": "penaltypts"
+        },
+        {
           "code": "rp",
           "title": "Melody & Ensemble RP",
           "type": "select",
