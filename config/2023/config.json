@@ -66,9 +66,9 @@
             "left": "Far",
             "middle": "Middle",
             "right": "Near",
-            "x": " "
+            "unsure": "Not Observed"
           },
-          "defaultValue": "x",
+          "defaultValue": "unsure",
           "required": false,
           "code": "autoStart"
         },
@@ -298,12 +298,12 @@
           "title": "Win/Loss",
           "type": "select",
           "choices": {
-            "x": " ",
+            "UNSURE": "Not Observed",
             "WIN": "Win",
             "LOSS": "Loss",
             "TIE": "Tie"
           },
-          "defaultValue": "x",
+          "defaultValue": "UNSURE",
           "required": false
         },
         {
