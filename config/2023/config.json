@@ -80,7 +80,7 @@
         },
         {
           "code": "aan",
-          "title": "Amp Note Scored",
+          "title": "Amp Notes Scored",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
@@ -89,7 +89,7 @@
         },
         {
           "code": "asn",
-          "title": "Speaker Note Scored",
+          "title": "Speaker Notes Scored",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
@@ -110,7 +110,7 @@
       "fields": [
         {
           "code": "an",
-          "title": "Amp Note Scored",
+          "title": "Amp Notes Scored",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
@@ -119,7 +119,7 @@
         },
         {
           "code": "sn",
-          "title": "Speaker Note Scored",
+          "title": "Speaker Notes Scored",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
@@ -128,7 +128,7 @@
         },
         {
           "code": "asn",
-          "title": "Amplified Speaker Note Scored",
+          "title": "Amplified Speaker Notes Scored",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
@@ -196,7 +196,7 @@
         },
         {
           "code": "etn",
-          "title": "Trap Note Scored",
+          "title": "Trap Notes Scored",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
