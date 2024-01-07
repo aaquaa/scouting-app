@@ -98,7 +98,7 @@
         },
         {
           "code": "ah",
-          "title": "Ends Holding Note?",
+          "title": "Ends Auto Holding Note?",
           "type": "boolean",
           "defaultValue": false,
           "required": false
@@ -175,7 +175,7 @@
         },
         {
           "code": "esh",
-          "title": "Amount of robots on one single chain",
+          "title": "No. of robots on one single chain",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
@@ -235,22 +235,21 @@
           "required": false
         },
         {
-          "code": "d",
-          "title": "Died",
-          "type": "boolean",
-          "defaultValue": false,
-          "required": false
-        },
-        {
-          "code": "to",
-          "title": "Tipped Over",
-          "type": "boolean",
-          "defaultValue": false,
+          "code": "rd",
+          "title": "Robot Problems",
+          "type": "select",
+          "choices": {
+            "TIPPED_OVER": "Tipped Over",
+            "DIED": "Died (Comments)",
+            "BOTH": "Both",
+            "NONE": "None"
+          },
+          "defaultValue": "NONE",
           "required": false
         },
         {
           "code": "de",
-          "title": "Dropped/Missed more than 2 notes",
+          "title": "Missed more than 2 notes",
           "type": "boolean",
           "defaultValue": false,
           "required": false
@@ -271,7 +270,7 @@
         },
         {
           "code": "rp",
-          "title": "Ranking Points",
+          "title": "Melody & Ensemble RP",
           "type": "select",
           "choices": {
             "MELODY": "Melody",
