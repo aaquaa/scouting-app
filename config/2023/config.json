@@ -97,6 +97,15 @@
           "required": false
         },
         {
+          "code": "amc",
+          "title": "Notes Missed",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 11,
+          "required": false
+        },
+        {
           "code": "ah",
           "title": "Ends Auto Holding Note?",
           "type": "boolean",
@@ -136,6 +145,15 @@
           "required": false
         },
         {
+          "code": "tmc",
+          "title": "Notes Missed",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 45,
+          "required": false
+        },
+        {
           "code": "nl",
           "title": "Where can it pick up notes?",
           "type": "select",
@@ -146,6 +164,13 @@
             "NONE": "Not Attempted"
           },
           "defaultValue": "NONE",
+          "required": false
+        },
+        {
+          "code": "cb",
+          "title": "Coopertition Bonus",
+          "type": "boolean",
+          "defaultValue": false,
           "required": false
         }
       ]
@@ -202,13 +227,6 @@
           "min": 0,
           "max": 3,
           "required": false
-        },
-        {
-          "code": "cb",
-          "title": "Coopertition Bonus",
-          "type": "boolean",
-          "defaultValue": false,
-          "required": false
         }
       ]
     },
@@ -252,13 +270,6 @@
             "NONE": "None"
           },
           "defaultValue": "NONE",
-          "required": false
-        },
-        {
-          "code": "de",
-          "title": "Missed more than 2 notes",
-          "type": "boolean",
-          "defaultValue": false,
           "required": false
         },
         {
