@@ -202,6 +202,13 @@
           "min": 0,
           "max": 3,
           "required": false
+        },
+        {
+          "code": "cb",
+          "title": "Coopertition Bonus",
+          "type": "boolean",
+          "defaultValue": false,
+          "required": false
         }
       ]
     },
@@ -257,13 +264,6 @@
         {
           "code": "cf",
           "title": "Yellow/Red Card",
-          "type": "boolean",
-          "defaultValue": false,
-          "required": false
-        },
-        {
-          "code": "cb",
-          "title": "Coopertition Bonus",
           "type": "boolean",
           "defaultValue": false,
           "required": false
