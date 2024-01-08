@@ -63,9 +63,9 @@
           "title": "Starting Location",
           "type": "select",
           "choices": {
-            "left": "Far",
+            "amp": "Amp Side",
             "middle": "Middle",
-            "right": "Near",
+            "source": "Source Side",
             "unsure": "Not Observed"
           },
           "defaultValue": "unsure",
