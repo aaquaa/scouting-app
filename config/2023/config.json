@@ -181,7 +181,7 @@
       "fields": [
         {
           "code": "et",
-          "title": "Attempted before 30 seconds",
+          "title": "Attempted before 20 seconds",
           "type": "boolean",
           "defaultValue": false,
           "required": false
