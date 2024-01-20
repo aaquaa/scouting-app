@@ -284,7 +284,8 @@
           "title": "Penalty Points",
           "type": "number",
           "required": false,
-          "code": "penaltypts"
+          "code": "penaltypts",
+          "max": 200
         },
         {
           "code": "rp",
