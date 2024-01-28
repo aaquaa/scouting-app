@@ -63,7 +63,7 @@ export default function Home() {
     <div className="min-h-screen py-2 dark:bg-white">
       <Head>
         <title>{formData.title}</title>
-        <link rel="icon" href="/public/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png"></link>
       </Head>
 
