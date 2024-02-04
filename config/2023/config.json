@@ -282,7 +282,7 @@
         },
         {
           "title": "Penalty Points",
-          "type": "number",
+          "type": "text",
           "required": false,
           "code": "penaltypts",
           "max": 200
