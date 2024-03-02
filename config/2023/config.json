@@ -166,13 +166,6 @@
           },
           "defaultValue": "NONE",
           "required": false
-        },
-        {
-          "code": "cb",
-          "title": "Coopertition Bonus",
-          "type": "boolean",
-          "defaultValue": false,
-          "required": false
         }
       ]
     },
@@ -286,6 +279,13 @@
           "required": false,
           "code": "penaltypts",
           "max": 200
+        },
+        {
+          "code": "cb",
+          "title": "Coopertition Bonus",
+          "type": "boolean",
+          "defaultValue": false,
+          "required": false
         },
         {
           "code": "rp",
