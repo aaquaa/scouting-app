@@ -186,7 +186,7 @@
           "choices": {
             "PARK": "Park",
             "ONSTAGE": "Onstage (Not Spotlit)",
-            "ONSTAGE_SPOTLIT": "Onstage (Spotlit)",
+            "ONSTAGE?SPOTLIT": "Onstage (Spotlit)",
             "NONE": "Not Attempted"
           },
           "defaultValue": "NONE",
@@ -258,7 +258,7 @@
           "title": "Robot Problems",
           "type": "select",
           "choices": {
-            "TIPPED_OVER": "Tipped Over",
+            "TIPPED?OVER": "Tipped Over",
             "DIED": "Died (Comments)",
             "BOTH": "Both",
             "NONE": "None"
