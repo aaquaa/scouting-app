@@ -206,7 +206,7 @@
           "title": "Where on the chain did it hang?",
           "type": "select",
           "choices": {
-            "LEFT_OR_RIGHT": "Left or Right",
+            "LEFT?OR?RIGHT": "Left or Right",
             "MIDDLE": "Middle",
             "NONE": "Not Attempted"
           },
