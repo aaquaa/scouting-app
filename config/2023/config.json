@@ -63,9 +63,9 @@
           "title": "Starting Location",
           "type": "select",
           "choices": {
-            "amp": "Amp Side",
+            "Processor": "Processor Side",
             "middle": "Middle",
-            "source": "Source Side",
+            "The other side": "Non Processor Side",
             "unsure": "Not Observed"
           },
           "defaultValue": "unsure",
@@ -81,7 +81,7 @@
         },
         {
           "code": "aan",
-          "title": "Amp Notes Scored",
+          "title": "Coral L1",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
@@ -90,7 +90,7 @@
         },
         {
           "code": "asn",
-          "title": "Speaker Notes Scored",
+          "title": "Coral L2",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
@@ -99,18 +99,47 @@
         },
         {
           "code": "amc",
-          "title": "Notes Missed",
+          "title": "Coral L3",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
           "max": 11,
           "required": false
         },
-        {
-          "code": "ah",
-          "title": "Ends Auto Holding Note?",
-          "type": "boolean",
-          "defaultValue": false,
+         {
+          "code": "amc",
+          "title": "Coral L4",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 11,
+          "required": false
+        },
+         {
+          "code": "amc",
+          "title": "Algae Processor",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 11,
+          "required": false
+        },
+         {
+          "code": "amc",
+          "title": "Algae Removal",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 11,
+          "required": false
+        },
+         {
+          "code": "amc",
+          "title": "Algae Shot",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 11,
           "required": false
         }
       ]
