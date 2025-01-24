@@ -147,45 +147,81 @@
     {
       "name": "Teleop",
       "fields": [
-        {
-          "code": "an",
-          "title": "Amp Notes Scored",
+         {
+          "code": "aan",
+          "title": "Coral L1",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
-          "max": 45,
-          "required": false
-        },
-        {
-          "code": "sn",
-          "title": "Speaker Notes Scored",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
-          "max": 45,
+          "max": 12,
           "required": false
         },
         {
           "code": "asn",
-          "title": "Amplified Speaker Notes Scored",
+          "title": "Coral L2",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
-          "max": 45,
+          "max": 11,
+          "required": false
+        },
+        {
+          "code": "amc",
+          "title": "Coral L3",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 11,
+          "required": false
+        },
+         {
+          "code": "amc",
+          "title": "Coral L4",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 11,
+          "required": false
+        },
+         {
+          "code": "amc",
+          "title": "Algae Processor",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 11,
+          "required": false
+        },
+         {
+          "code": "amc",
+          "title": "Algae Removal",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 11,
+          "required": false
+        },
+         {
+          "code": "amc",
+          "title": "Algae Shot",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 11,
           "required": false
         },
         {
           "code": "tmc",
-          "title": "Notes Missed",
+          "title": "Coral Missed",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
           "max": 45,
           "required": false
         },
-        {
+          {
           "code": "nl",
-          "title": "Where can it pick up notes?",
+          "title": "Where can it pick up coral?",
           "type": "select",
           "choices": {
             "GROUND": "Ground",
@@ -210,45 +246,31 @@
         },
         {
           "code": "es",
-          "title": "Stage",
+          "title": "Cage",
           "type": "select",
           "choices": {
+            "DEEP": "Deep Cage",
+            "SHALLOW": "Shallow cage",
             "PARK": "Park",
-            "ONSTAGE": "Onstage (Not Spotlit)",
-            "ONSTAGE?SPOTLIT": "Onstage (Spotlit)",
             "NONE": "Not Attempted"
           },
           "defaultValue": "NONE",
           "required": false
         },
         {
-          "code": "esh",
-          "title": "No. of robots on same chain",
+          "code": "net",
+          "title": "Algae in Net",
           "type": "counter",
           "defaultValue": 0,
           "min": 0,
-          "max": 3,
+          "max": 18,
           "required": false
         },
         {
-          "code": "esl",
-          "title": "Where on the chain did it hang?",
-          "type": "select",
-          "choices": {
-            "LEFT?OR?RIGHT": "Left or Right",
-            "MIDDLE": "Middle",
-            "NONE": "Not Attempted"
-          },
+          "code": "",
+          "title": "Human Player At Net",
+          "type": "text",
           "defaultValue": "NONE",
-          "required": false
-        },
-        {
-          "code": "etn",
-          "title": "Trap Notes Scored",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
-          "max": 3,
           "required": false
         }
       ]
@@ -317,16 +339,24 @@
           "required": false
         },
         {
-          "code": "rp",
-          "title": "Melody & Ensemble RP",
-          "type": "select",
-          "choices": {
-            "MELODY": "Melody",
-            "ENSEMBLE": "Ensemble",
-            "BOTH": "Both",
-            "NONE": "None"
-          },
-          "defaultValue": "NONE",
+         "code": "arp",
+          "title": "Auto RP",
+          "type": "boolean",
+          "defaultValue": false,
+          "required": false
+        },
+        {
+         "code": "crp",
+          "title": "Coral RP",
+          "type": "boolean",
+          "defaultValue": false,
+          "required": false
+        },
+        {
+         "code": "brp",
+          "title": "Barge RP",
+          "type": "boolean",
+          "defaultValue": false,
           "required": false
         },
         {
