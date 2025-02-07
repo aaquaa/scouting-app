@@ -183,6 +183,15 @@
           "max": 11,
           "required": false
         },
+        {
+          "code": "tmc",
+          "title": "Coral Missed",
+          "type": "counter",
+          "defaultValue": 0,
+          "min": 0,
+          "max": 45,
+          "required": false
+        },
          {
           "code": "amk",
           "title": "Algae Processor",
@@ -208,15 +217,6 @@
           "defaultValue": 0,
           "min": 0,
           "max": 11,
-          "required": false
-        },
-        {
-          "code": "tmc",
-          "title": "Coral Missed",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
-          "max": 45,
           "required": false
         },
           {
@@ -270,7 +270,7 @@
           "code": "",
           "title": "Human Player At Net",
           "type": "text",
-          "defaultValue": "NONE",
+          "defaultValue": "",
           "required": false
         }
       ]
