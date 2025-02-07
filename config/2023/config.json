@@ -98,7 +98,7 @@
           "required": false
         },
         {
-          "code": "amc",
+          "code": "amd",
           "title": "Coral L3",
           "type": "counter",
           "defaultValue": 0,
@@ -107,7 +107,7 @@
           "required": false
         },
          {
-          "code": "amc",
+          "code": "amg",
           "title": "Coral L4",
           "type": "counter",
           "defaultValue": 0,
@@ -116,7 +116,7 @@
           "required": false
         },
          {
-          "code": "amc",
+          "code": "amh",
           "title": "Algae Processor",
           "type": "counter",
           "defaultValue": 0,
@@ -125,7 +125,7 @@
           "required": false
         },
          {
-          "code": "amc",
+          "code": "aml",
           "title": "Algae Removal",
           "type": "counter",
           "defaultValue": 0,
@@ -134,7 +134,7 @@
           "required": false
         },
          {
-          "code": "amc",
+          "code": "amt",
           "title": "Algae Shot",
           "type": "counter",
           "defaultValue": 0,
@@ -166,7 +166,7 @@
           "required": false
         },
         {
-          "code": "amc",
+          "code": "amz",
           "title": "Coral L3",
           "type": "counter",
           "defaultValue": 0,
@@ -175,7 +175,7 @@
           "required": false
         },
          {
-          "code": "amc",
+          "code": "amj",
           "title": "Coral L4",
           "type": "counter",
           "defaultValue": 0,
@@ -184,7 +184,7 @@
           "required": false
         },
          {
-          "code": "amc",
+          "code": "amk",
           "title": "Algae Processor",
           "type": "counter",
           "defaultValue": 0,
@@ -193,7 +193,7 @@
           "required": false
         },
          {
-          "code": "amc",
+          "code": "aml",
           "title": "Algae Removal",
           "type": "counter",
           "defaultValue": 0,
@@ -202,7 +202,7 @@
           "required": false
         },
          {
-          "code": "amc",
+          "code": "amo",
           "title": "Algae Shot",
           "type": "counter",
           "defaultValue": 0,
