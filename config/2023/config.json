@@ -250,7 +250,7 @@
           "type": "select",
           "choices": {
             "DEEP": "Deep Cage",
-            "SHALLOW": "Shallow cage",
+            "SHALLOW": "Shallow Cage",
             "PARK": "Park",
             "NONE": "Not Attempted"
           },
