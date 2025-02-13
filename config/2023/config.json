@@ -8,7 +8,7 @@
       "preserveDataOnReset": true,
       "fields": [
         {
-          "title": "Scouter Initials",
+          "title": "Scouters Name & Initial",
           "type": "text",
           "required": true,
           "code": "scouter"
