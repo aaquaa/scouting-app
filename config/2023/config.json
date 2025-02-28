@@ -11,13 +11,13 @@
           "title": "Scouter 1 Name & Initial",
           "type": "text",
           "required": true,
-          "code": "scouter"
+          "code": "scouter1"
         },
         {
           "title": "Scouter 2 Name & Initial",
           "type": "text",
           "required": true,
-          "code": "scouter"
+          "code": "scouter2"
         },
         {
           "title": "Match Number",
