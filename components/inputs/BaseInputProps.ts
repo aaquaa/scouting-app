@@ -12,7 +12,6 @@ export interface Config {
 
 export interface SectionProps {
   name: string
-  preserveDataOnReset?: boolean
   fields: InputProps[]
 }
 
