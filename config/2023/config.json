@@ -332,7 +332,7 @@
         },
         {
           "title": "Penalty Points",
-          "type": "number",
+          "type": "text",
           "required": false,
           "defaultValue": "0",
           "code": "penaltypts",
