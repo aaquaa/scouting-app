@@ -5,7 +5,7 @@
   "sections": [
     {
       "name": "Prematch",
-      "preserveDataOnReset": true,
+      "preserveDataOnReset": false,
       "fields": [
         {
           "title": "Scouter 1 Name & Initial",
