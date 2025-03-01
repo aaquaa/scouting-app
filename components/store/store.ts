@@ -5,6 +5,9 @@ import { createStore } from './createStore'
 import { ChangeEvent } from 'react'
 import produce from 'immer'
 
+// 🔥 Clear past stored state before creating the store
+localStorage.removeItem('qrScout')
+
 function buildConfig(c: Config) {
   let config: Config = { ...c }
   config.sections
