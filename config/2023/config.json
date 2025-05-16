@@ -264,15 +264,6 @@
           "required": false
         },
         {
-          "code": "net",
-          "title": "Algae in Net",
-          "type": "counter",
-          "defaultValue": 0,
-          "min": 0,
-          "max": 18,
-          "required": false
-        },
-        {
           "code": "",
           "title": "Human Player At Net",
           "type": "text",
