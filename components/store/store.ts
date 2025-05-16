@@ -96,5 +96,3 @@ export function getQRCodeData(): string {
     .map((v) => `${v.value}`.replace(/\n/g, ' '))
     .join('\t')
 }
-
-localStorage.removeItem('qrScout')
