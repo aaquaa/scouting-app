@@ -262,7 +262,7 @@
           },
           "defaultValue": "NONE",
           "required": false
-        },
+        }
       ]
     },
     {
