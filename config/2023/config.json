@@ -263,13 +263,6 @@
           "defaultValue": "NONE",
           "required": false
         },
-        {
-          "code": "",
-          "title": "Human Player At Net",
-          "type": "text",
-          "defaultValue": "",
-          "required": false
-        }
       ]
     },
     {
