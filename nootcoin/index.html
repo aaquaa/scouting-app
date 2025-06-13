@@ -1,0 +1,3270 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nootcoin</title>
+    <link rel="icon" type="image/x-icon" href="/src/favicon.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {}
+        }
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+      
+      html, body {
+          font-family: 'Inter', sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f3f4f6;
+          color: #1f2937;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          overscroll-behavior-y: contain;
+          transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      html.dark {
+          background-color: #0f172a;
+          color: #f3f4f6;
+      }
+
+      html.dark body {
+          background-color: #0f172a;
+          color: #f3f4f6;
+      }
+
+      html.dark #loading-overlay {
+          background-color: #0f172a;
+      }
+
+      html.dark #main-content {
+          background-color: #0f172a;
+      }
+
+      /* Dark mode modal and input styles */
+      html.dark .bg-white {
+          background-color: #1e293b;
+      }
+
+      html.dark input,
+      html.dark select {
+          background-color: #374151;
+          border-color: #4b5563;
+          color: #f1f5f9;
+      }
+
+      html.dark input::placeholder {
+          color: #9ca3af;
+      }
+
+      html.dark #modal-overlay {
+          background-color: rgba(0, 0, 0, 0.75);
+      }
+
+      /* Dark mode icon styles */
+      .theme-toggle {
+          cursor: pointer;
+          padding: 0.5rem;
+          border-radius: 0.5rem;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          background-color: #374151;
+          color: #f3f4f6;
+      }
+
+      .theme-toggle:hover {
+          background-color: #4b5563;
+      }
+
+      .theme-toggle svg {
+          width: 1.25rem;
+          height: 1.25rem;
+      }
+
+      .animate-scaleIn {
+          animation: scaleIn 0.3s ease-out forwards;
+      }
+      @keyframes scaleIn {
+          from {
+              transform: scale(0.95);
+              opacity: 0;
+          }
+          to {
+              transform: scale(1);
+              opacity: 1;
+          }
+      }
+      .animate-slideIn {
+          animation: slideIn 0.5s ease-out forwards;
+      }
+      @keyframes slideIn {
+          from {
+              transform: translateX(100%);
+              opacity: 0;
+          }
+          to {
+              transform: translateX(0);
+              opacity: 1;
+          }
+      }
+
+      /* Aesthetic Loading Overlay Styles */
+      #loading-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: #f3f4f6; /* Light background */
+          display: flex;
+          flex-direction: column; /* Allow content to stack vertically */
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+          transition: opacity 0.7s ease-out, visibility 0.7s ease-out;
+          opacity: 1;
+          visibility: visible;
+          overflow: hidden; /* Hide overflow from animations */
+      }
+
+      #loading-overlay.hidden {
+          opacity: 0;
+          visibility: hidden;
+      }
+
+      .grid-loader {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr); /* 5x5 grid of dots */
+          grid-template-rows: repeat(5, 1fr);
+          gap: 10px; /* Space between dots */
+          width: 150px; /* Overall size of the grid */
+          height: 150px;
+          transform: rotate(45deg); /* Abstract tilt */
+      }
+
+      .grid-item {
+          width: 20px; /* Size of each dot */
+          height: 20px;
+          background: linear-gradient(45deg, #6366f1, #9333ea); /* Gradient fill */
+          border-radius: 4px; /* Slightly rounded squares */
+          opacity: 0;
+          animation: grid-pulse 2s infinite ease-in-out;
+      }
+
+      /* Stagger animation delays using a CSS variable */
+      .grid-item:nth-child(n) { animation-delay: calc(var(--i) * 0.05s); }
+
+
+      @keyframes grid-pulse {
+          0%, 100% {
+              transform: scale(0.5);
+              opacity: 0;
+          }
+          50% {
+              transform: scale(1);
+              opacity: 1;
+          }
+      }
+
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .animate-gradient {
+        background-size: 200% 200%;
+        animation: gradient 15s ease infinite;
+        opacity: 0.99;
+      }
+
+      /* Add to your existing <style> tag */
+      @keyframes fadeSlide {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .page-transition {
+        animation: fadeSlide 0.3s ease-out forwards;
+      }
+
+      /* Update the nav-btn styles in your <style> section */
+      .nav-btn {
+        background-color: transparent;
+        color: rgba(255, 255, 255, 1); /* Make text fully white */
+        transition: all 0.2s ease-in-out;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+      }
+
+      .nav-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1); /* Lighter hover state */
+      }
+
+      .nav-btn.active {
+        background-color: rgb(126, 34, 206) !important; /* Keep the solid purple for active state */
+        color: white !important;
+      }
+
+      /* Add these styles to your existing <style> section */
+      .animate-fadeOut {
+          animation: fadeOut 0.3s ease-out forwards;
+      }
+      @keyframes fadeOut {
+          from {
+              opacity: 1;
+              transform: translateX(0);
+          }
+          to {
+              opacity: 0;
+              transform: translateX(10px);
+          }
+      }
+
+      html.dark {
+          background-color: #0f172a;
+          color: #f3f4f6;
+      }
+      
+      html.dark #loading-overlay {
+          background-color: #0f172a;
+      }
+
+      html.dark .bg-white {
+          background-color: #1e293b;
+      }
+
+      html.dark .text-gray-900 {
+          color: #f3f4f6;
+      }
+
+      html.dark .border-gray-300 {
+          border-color: #374151;
+      }
+
+      html.dark .text-gray-600,
+      html.dark .text-gray-700,
+      html.dark .text-gray-800 {
+          color: #d1d5db;
+      }
+
+      html.dark .bg-gray-50,
+      html.dark .bg-gray-100 {
+          background-color: #374151;
+      }
+
+      html.dark .hover\:bg-gray-50:hover {
+          background-color: #2d3748;
+      }
+
+      html.dark .bg-indigo-50,
+      html.dark .hover\:bg-indigo-50:hover {
+          background-color: rgba(99, 102, 241, 0.1);
+      }
+
+      html.dark .bg-red-50,
+      html.dark .hover\:bg-red-50:hover {
+          background-color: rgba(239, 68, 68, 0.1);
+      }
+
+      html.dark .bg-purple-50 {
+          background-color: rgba(147, 51, 234, 0.1);
+      }
+
+      html.dark .bg-gradient-to-r.from-emerald-100.to-teal-100 {
+          background-image: none !important;
+          background-color: rgba(123, 255, 211, 0.7) !important;
+      }
+
+      html.dark #settings-btn {
+          background-color: #374151;
+          color: #818cf8;
+          border-color: #4f46e5;
+      }
+
+      html.dark #settings-btn:hover {
+          background-color: #4b5563;
+      }
+
+      /* Dark mode styles for leaderboard */
+      html.dark .text-gray-500 {
+          color: #f3f4f6;  /* Make header text white */
+      }
+
+      /* Dark mode styles for match cards */
+      html.dark .bg-gray-50,
+      html.dark .prediction-input-section {
+          background-color: #2d3748;
+      }
+
+      html.dark .shadow-lg {
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      }
+
+      html.dark tbody.bg-white {
+          background-color: #1e293b;
+      }
+
+      html.dark tr:hover {
+          background-color: #2d3748;
+      }
+
+      /* Prevent hover color change for the current user's row in leaderboard */
+      html.dark tr.bg-indigo-50.font-semibold:hover {
+          background-color: rgba(99, 102, 241, 0.1) !important;
+      }
+
+	  html.dark #nav-leaderboard.active ~ #main-content .bg-white tbody tr:hover {
+          background-color: #1e293b;
+      }
+
+      /* Add styles for the theme toggle button */
+      .theme-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.75rem;
+          width: 100%;
+          background-color: #374151;
+          color: #f3f4f6;
+          border-radius: 0.5rem;
+          transition: background-color 0.2s;
+      }
+
+      .theme-toggle:hover {
+          background-color: #4b5563;
+      }
+
+      .theme-toggle svg {
+          width: 1.25rem;
+          height: 1.25rem;
+      }
+
+      /* Dark mode styles for alliance buttons */
+      html.dark .predict-alliance-btn {
+          border-color: #374151;
+          color: #e5e7eb;
+      }
+
+      html.dark .predict-alliance-btn:hover {
+          background-color: #4b5563;
+      }
+
+      html.dark .predict-alliance-btn[data-alliance="blue"].border-blue-600 {
+          border-color: #3b82f6;
+          background-color: rgba(59, 130, 246, 0.2);
+          color: #93c5fd;
+      }
+
+      html.dark .predict-alliance-btn[data-alliance="red"].border-red-600 {
+          border-color: #ef4444;
+          background-color: rgba(239, 68, 68, 0.2) !important;
+          color: #fca5a5;
+      }
+	  
+	  html.dark .predict-alliance-btn[data-alliance="red"]:hover {
+          background-color: rgba(239, 68, 68, 0.1) !important;
+      }
+
+	  html.dark .predict-alliance-btn[data-alliance="blue"]:hover {
+          background-color: rgba(59, 130, 246, 0.1) !important;
+      }
+	  
+      html.dark .predict-alliance-btn[data-alliance="blue"].border-blue-600:hover {
+          background-color: rgba(59, 130, 246, 0.2) !important;
+      }
+
+      html.dark .predict-alliance-btn[data-alliance="red"].border-red-600:hover {
+          background-color: rgba(239, 68, 68, 0.2) !important;
+      }
+	  
+	  /* Add these styles to your existing <style> section */
+      html.dark .winner-display,
+      html.dark .user-prediction-display {
+          opacity: 1 !important;
+		  text-shadow: none !important;
+          color: #000 !important; /* Lighter text color */
+      }
+	  
+	  html.dark .bg-gradient-to-r.from-emerald-100.to-teal-100 {
+		  background-image: none !important;
+		  background-color: rgba(16, 185, 129, 0.9) !important;
+          color: #00361d !important;
+	  }
+
+	  html.dark .bg-red-100 {
+		  background-color: rgba(252, 185, 182, 0.9) !important;
+	  }
+
+	  html.dark .bg-purple-50 {
+		  background-color: rgba(182, 181, 252, 0.75) !important;
+	  }
+
+	  html.dark .bg-orange-100 {
+		  background-color: rgba(252, 238, 216, 0.785)!important;
+	  }
+	  
+	  html.dark .text-emerald-700.winner-display {
+		  color: white !important;
+	  }
+
+      /* Tooltip only on icon hover */
+      .tooltip-icon {
+          position: relative;
+          display: inline-block;
+      }
+      .tooltip-icon .tooltip-text {
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.15s;
+          visibility: hidden;
+      }
+      .tooltip-icon:hover .tooltip-text,
+      .tooltip-icon:focus-within .tooltip-text {
+          opacity: 1;
+          pointer-events: auto;
+          visibility: visible;
+          z-index: 50;
+      }
+
+      html.dark .counter-minus,
+      html.dark .counter-plus {
+        background-color: #333347 !important;
+        color: #e0e7ef !important;
+        border-color: #333347 !important;
+      }
+      html.dark .counter-minus:hover,
+      html.dark .counter-plus:hover {
+        background-color: #373759 !important;
+      }
+    </style>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  </head>
+  <body class="min-h-screen font-sans antialiased text-gray-900">
+    <div id="loading-overlay">
+      <div class="grid-loader">
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+              const gridLoader = document.querySelector('.grid-loader');
+              if (gridLoader) {
+                  for (let i = 0; i < 25; i++) {
+                      const div = document.createElement('div');
+                      div.classList.add('grid-item');
+                      div.style.setProperty('--i', i); // Set a CSS variable for staggering
+                      gridLoader.appendChild(div);
+                  }
+              }
+          });
+        </script>
+      </div>
+      <div
+        class="text-center text-gray-500 text-sm p-4 mt-8 absolute bottom-0 w-full"
+      >
+        Nootcoin | Est 2025
+      </div>
+    </div>
+
+    <div id="app-container">
+      <header
+        id="header"
+        class="relative bg-gradient-to-r from-indigo-700 to-fuchsia-600 text-white p-4 shadow-lg rounded-b-[1rem] mb-6 overflow-hidden"
+      >
+        <!-- Update the animated gradient overlay with new colors -->
+        <div class="absolute inset-0 animate-gradient bg-gradient-to-r from-indigo-700 via-purple-600 to-fuchsia-700 rounded-b-[1rem]"></div>
+
+        <!-- Rest of the header content remains the same -->
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between relative z-10">
+          <!-- Title: Always left, but takes up space -->
+          <div class="flex-1 flex justify-start md:justify-start w-full md:w-auto mb-2 md:mb-0">
+            <h1 class="text-3xl font-bold text-center md:text-left w-full md:w-auto">
+              Nootcoin
+            </h1>
+          </div>
+          <!-- Centered Nav: Always centered on the same line as title/user-info -->
+          <nav class="flex-1 flex justify-center w-full md:w-auto">
+            <div class="flex space-x-2 md:space-x-4">
+              <!-- Update the navigation buttons HTML -->
+              <button
+                id="nav-dashboard"
+                class="nav-btn hover:bg-opacity-10 transition duration-200 px-3 py-1 rounded-md"
+              >
+                Dashboard
+              </button>
+              <button
+                id="nav-leaderboard"
+                class="nav-btn hover:bg-opacity-10 transition duration-200 px-3 py-1 rounded-md"
+              >
+                Leaderboard
+              </button>
+              <button
+                id="nav-scouting"
+                class="nav-btn hover:bg-opacity-10 transition duration-200 px-3 py-1 rounded-md"
+              >
+                Scouting
+              </button>
+              <button
+                id="nav-admin"
+                class="nav-btn hidden hover:bg-opacity-10 transition duration-200 px-3 py-1 rounded-md"
+              >
+                Admin
+              </button>
+            </div>
+          </nav>
+          <!-- User Info: Right, stacked on desktop, horizontal on mobile -->
+          <div
+            id="user-info"
+            class="flex-1 mt-4 md:mt-0 flex flex-col md:flex-col lg:flex-col xl:flex-col 2xl:flex-col md:items-end items-center w-full md:w-auto space-y-0 md:space-y-0"
+          ></div>
+        </div>
+      </header>
+
+    <main id="main-content" class="container mx-auto p-4 bg-gray-100 rounded-xl"></main>
+
+      <div id="message-display-container"></div>
+      <div id="modal-container"></div>
+    </div>
+
+    <button
+      id="settings-btn"
+      class="fixed bottom-4 left-4 z-50 bg-white text-indigo-700 border border-indigo-300 shadow-lg rounded-full px-4 py-2 flex items-center gap-2 hover:bg-indigo-50 transition text-sm font-semibold"
+      title="Settings"
+      type="button"
+    >
+      Settings
+    </button>
+
+    <script type="module">
+      // --- Global State (In-memory) ---
+      const state = {
+          currentUser: null,
+          users: [],
+          matches: [],
+          predictions: {},
+          currentPage: 'dashboard',
+          optimisticPredictions: {},
+          optimisticMatches: [], // <-- add this line
+          message: '',
+          messageType: 'info',
+          isLoading: false,
+          modal: {
+              isOpen: false,
+              title: '',
+              content: '',
+              showConfirmButton: false,
+              onConfirm: null,
+              confirmText: 'Confirm',
+          },
+          showLoginForm: true,
+          welcomeMessageShown: false,
+          inputValues: {
+              loginUsername: { value: '', selectionStart: 0, selectionEnd: 0 },
+              loginPassword: { value: '', selectionStart: 0, selectionEnd: 0 },
+              signupEmail: { value: '', selectionStart: 0, selectionEnd: 0 },
+              signupUsername: { value: '', selectionStart: 0, selectionEnd: 0 },
+              signupPassword: { value: '', selectionStart: 0, selectionEnd: 0 },
+              newMatchName: { value: '', selectionStart: 0, selectionEnd: 0 },
+              coinAdjustAmount: { value: '', selectionStart: 0, selectionEnd: 0 },
+              selectedUserAdjust: '',
+              predictionCoins: {},
+              scoutingData: {} // Add this new property
+          },
+          selectedAllianceButton: null,
+          selectedAllianceButtons: {}, // Add this line
+          previousUsers: [],
+          previousMatches: [],
+          previousPredictions: {},
+          celebratedWins: new Set(), // Track which wins we've already celebrated
+          optimisticUserCoinAdjustments: {}, // userId -> { coins, timestamp }
+          optimisticMatchStatuses: {},
+          optimisticMatchWinners: {}, // Add this new field to track winner updates
+          optimisticMatchCoins: {}, // Add this new field to track coin totals
+          isDarkMode: localStorage.getItem('darkMode') === 'true',
+          lastErrorTime: 0, // Add this line for error rate limiting
+          hasScoutingRendered: false, // Add this line to track scouting tab render
+      };
+
+      // --- DOM Elements ---
+      const appContainer = document.getElementById('app-container');
+      const headerElement = document.getElementById('header');
+      const mainContentElement = document.getElementById('main-content');
+      const userInfoElement = document.getElementById('user-info');
+      const navDashboardBtn = document.getElementById('nav-dashboard');
+      const navLeaderboardBtn = document.getElementById('nav-leaderboard');
+      const navScoutingBtn = document.getElementById('nav-scouting');
+      const navAdminBtn = document.getElementById('nav-admin');
+      const messageDisplayContainer = document.getElementById('message-display-container');
+      const modalContainer = document.getElementById('modal-container');
+      const loadingOverlay = document.getElementById('loading-overlay'); // Get the loading overlay element
+
+      // --- Google Apps Script URL ---
+      const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuZrCwuBtfvUaN3hkcnWBh5MijqDIh0CPQh7LGnK3tKR-X-gdUldivRipr5zUBBTdN/exec';
+
+      // --- Polling Configuration ---
+      const POLLING_INTERVAL_MS = 2000; // Poll every 2 seconds
+      const OPTIMISTIC_GRACE_PERIOD_MS = 10000; // 10 seconds for optimistic updates to persist
+      let pollingIntervalId = null;
+
+      // --- Data Management Functions (Interacting with Apps Script) ---
+
+      /**
+       * Initializes app data by fetching from Google Sheets and attempts to log in user.
+       * This function is primarily called on initial load and by the polling mechanism,
+       * or after a user action to re-sync.
+       */
+      async function initializeAppData() {
+          try {
+              // Store current data as previous for comparison
+              state.previousUsers = [...state.users];
+              state.previousMatches = JSON.parse(JSON.stringify(state.matches)); // Deep copy previous matches
+
+              // IMPORTANT: Deep copy state.predictions *before* fetching new data
+              // This ensures previousPredictions truly represents the state before any optimistic changes or server sync
+              state.previousPredictions = {};
+              for (const matchId in state.predictions) {
+                  state.previousPredictions[matchId] = JSON.parse(JSON.stringify(state.predictions[matchId]));
+              }
+              // Ensure that if a match had no predictions, its entry in previousPredictions is an empty array
+              state.matches.forEach(match => {
+                  if (!state.previousPredictions[match.id]) {
+                      state.previousPredictions[match.id] = [];
+                  }
+              });
+
+
+              // Capture current optimistic predictions for predictions object before fetching new data
+              const currentOptimisticPredictions = {};
+              for (const matchId in state.optimisticPredictions) {
+                  currentOptimisticPredictions[matchId] = state.optimisticPredictions[matchId].filter(p =>
+                      p.isOptimistic && (Date.now() - p.timestamp < OPTIMISTIC_GRACE_PERIOD_MS)
+                  );
+              }
+
+              // Fetch all data concurrently from the server
+              const [users, matches, predictionsDataFromServer] = await Promise.all([
+                  fetchData('getUsers'),
+                  fetchData('getMatches'),
+                  fetchData('getPredictions')
+              ]);
+              // If a user has a recent optimistic coin adjustment, use that value instead of the server's
+              const now = Date.now();
+              const grace = OPTIMISTIC_GRACE_PERIOD_MS;
+              state.users = users.map(u => {
+                  const optimistic = state.optimisticUserCoinAdjustments[u.id];
+                  if (optimistic && (now - optimistic.timestamp < grace)) {
+                      return { ...u, coins: optimistic.coins };
+                  }
+                  return u;
+              });
+
+              // --- Merge optimistic matches ---
+              // Remove optimistic matches that are now present in server data (by id)
+              state.optimisticMatches = state.optimisticMatches.filter(opt =>
+                  !matches.some(serverMatch => serverMatch.id === opt.id)
+              );
+              // Add remaining optimistic matches to the matches array
+              const mergedMatches = matches.concat(state.optimisticMatches);
+
+              // Reconcile server match data with optimistic client match data
+              state.matches = mergedMatches.map(serverMatch => {
+                  // Check optimistic status updates
+                  const optimisticUpdate = state.optimisticMatchStatuses[serverMatch.id];
+                  const optimisticWinner = state.optimisticMatchWinners[serverMatch.id];
+                  
+                  if (optimisticUpdate && Date.now() - optimisticUpdate.timestamp < OPTIMISTIC_GRACE_PERIOD_MS) {
+                      serverMatch.status = optimisticUpdate.status;
+                  }
+                  
+                  if (optimisticWinner && Date.now() - optimisticWinner.timestamp < OPTIMISTIC_GRACE_PERIOD_MS) {
+                      serverMatch.status = 'completed';
+                      serverMatch.winner = optimisticWinner.winner;
+                  }
+
+                  // Check optimistic coin totals
+                  const optimisticCoins = state.optimisticMatchCoins[serverMatch.id];
+                  if (optimisticCoins && Date.now() - optimisticCoins.timestamp < OPTIMISTIC_GRACE_PERIOD_MS) {
+                      if (optimisticCoins.blueAllianceTotalCoins >= serverMatch.blueAllianceTotalCoins) {
+                          serverMatch.blueAllianceTotalCoins = optimisticCoins.blueAllianceTotalCoins;
+                      }
+                      if (optimisticCoins.redAllianceTotalCoins >= serverMatch.redAllianceTotalCoins) {
+                          serverMatch.redAllianceTotalCoins = optimisticCoins.redAllianceTotalCoins;
+                      }
+                  }
+
+                  return serverMatch;
+              });
+
+
+              // Clean up expired optimistic updates
+              for (const matchId in state.optimisticMatchWinners) {
+                  if (now - state.optimisticMatchWinners[matchId].timestamp >= OPTIMISTIC_GRACE_PERIOD_MS) {
+                      delete state.optimisticMatchWinners[matchId];
+                  }
+              }
+
+              // Reconcile server prediction data with optimistic client prediction data
+              const newPredictionsState = {};
+              predictionsDataFromServer.forEach(p => {
+                  if (!newPredictionsState[p.matchId]) {
+                      newPredictionsState[p.matchId] = [];
+                  }
+                  newPredictionsState[p.matchId].push(p);
+              });
+
+              for (const matchId in currentOptimisticPredictions) { // Iterate through previous optimistic predictions
+                  currentOptimisticPredictions[matchId].forEach(optimisticP => {
+                      const isConfirmedByServer = newPredictionsState[matchId]?.some(p =>
+                          String(p.userId) === String(optimisticP.userId) &&
+                          String(p.matchId) === String(optimisticP.matchId) &&
+                          String(p.alliance) === String(optimisticP.alliance) &&
+                          Number(p.coinsPlaced) === Number(optimisticP.coinsPlaced)
+                      );
+                      const isStillWithinGrace = (Date.now() - optimisticP.timestamp < OPTIMISTIC_GRACE_PERIOD_MS);
+
+                      // Only keep the optimistic prediction if NOT confirmed AND still within grace period
+                      if (!isConfirmedByServer && isStillWithinGrace) {
+                          if (!newPredictionsState[matchId]) {
+                              newPredictionsState[matchId] = [];
+                          }
+                          const existingUserPredictionIndex = newPredictionsState[matchId].findIndex(p => String(p.userId) === String(optimisticP.userId));
+                          if (existingUserPredictionIndex !== -1) {
+                              newPredictionsState[matchId][existingUserPredictionIndex] = optimisticP;
+                          } else {
+                              newPredictionsState[matchId].push(optimisticP);
+                          }
+                      }
+                      // If confirmed by server, or grace period expired, do nothing (let server data win)
+                  });
+              }
+              state.predictions = newPredictionsState;
+
+
+              // Clean up confirmed or expired optimistic predictions
+              for (const matchId in state.optimisticPredictions) {
+                  state.optimisticPredictions[matchId] = state.optimisticPredictions[matchId].filter(optimisticP => {
+                      const isConfirmedByServer = newPredictionsState[matchId]?.some(p =>
+                          String(p.userId) === String(optimisticP.userId) &&
+                          String(p.matchId) === String(optimisticP.matchId) &&
+                          String(p.alliance) === String(optimisticP.alliance) &&
+                          Number(p.coinsPlaced) === Number(optimisticP.coinsPlaced)
+                      );
+                      const isStillWithinGrace = (Date.now() - optimisticP.timestamp < OPTIMISTIC_GRACE_PERIOD_MS);
+                      return !isConfirmedByServer && isStillWithinGrace;
+                  });
+              }
+
+
+              // Attempt to log in user from local storage
+              const loggedInUserId = localStorage.getItem('loggedInUserId');
+              if (loggedInUserId) {
+                  const foundUser = state.users.find(u => u.id === loggedInUserId);
+                  if (foundUser) {
+                      // Only show welcome message if it hasn't been shown yet for this session
+                      if (state.currentUser === null && !state.welcomeMessageShown) {
+                          showMessage(`Welcome back, ${foundUser.username}!`, 'success');
+                          state.welcomeMessageShown = true;
+                      }
+                      state.currentUser = foundUser;
+                  } else {
+                      // User ID in local storage but not found in sheet (e.g., deleted)
+                      localStorage.removeItem('loggedInUserId');
+                      state.currentUser = null;
+                      state.welcomeMessageShown = false;
+                  }
+              } else {
+                  state.currentUser = null;
+                  state.welcomeMessageShown = false;
+              }
+
+              // Call targeted update functions instead of full page re-render
+              updateUIElements();
+
+          } catch (error) {
+              console.error("Failed to initialize app data:", error);
+              
+              // Rate limit error messages to once per 5 seconds
+              const now = Date.now();
+              if (now - state.lastErrorTime >= 5000) {
+                  showMessage("Failed to load initial app data. Please refresh.", "error");
+                  state.lastErrorTime = now;
+              }
+              
+              renderHeader();
+          } finally {
+              setLoading(false); // Unset loading after entire initialization process (whether success or error)
+              hideLoadingOverlay(); // Ensure overlay is hidden after initial load
+          }
+      }
+
+      /**
+       * Starts polling for data updates.
+       */
+      function startPollingForUpdates() {
+          if (pollingIntervalId) {
+              clearInterval(pollingIntervalId); // Clear any existing interval
+          }
+          pollingIntervalId = setInterval(async () => {
+              console.log('Checking for updates...'); // 
+              // Only re-fetch if no user action is currently in progress
+              if (!state.isLoading) { // This is the crucial check
+                  await initializeAppData(); // Re-fetch all data and then selectively update UI
+              }
+          }, POLLING_INTERVAL_MS);
+      }
+
+      // --- Utility Functions ---
+
+      /**
+       * Sets the global loading state.
+       * @param {boolean} loading - True to set loading, false to unset.
+       */
+      function setLoading(loading) {
+          state.isLoading = loading;
+          // Optionally, you could show/hide a global loading spinner here if needed
+          // console.log('Loading state:', state.isLoading);
+          // console.log('Loading state:', state.isLoading);
+      }
+
+      /**
+       * Hides the initial loading overlay.
+       */
+      function hideLoadingOverlay() {
+          if (loadingOverlay) {
+              loadingOverlay.classList.add('hidden');
+          }
+      }
+
+      /**
+       * Generates a simple unique ID.
+       * @returns {string} A unique ID string.
+       */
+      function generateUniqueId() {
+          return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      }
+
+      /**
+       * Displays a temporary message to the user.
+       * @param {string} msg - The message to display.
+       * @param {string} type - The type of message ('info' | 'success' | 'warning' | 'error').
+       */
+      function showMessage(msg, type = 'info') {
+          state.message = msg;
+          state.messageType = type;
+          renderMessageDisplay();
+
+          setTimeout(() => {
+              state.message = '';
+              state.messageType = 'info';
+              renderMessageDisplay();
+          }, 5000); // Message disappears after 5 seconds
+      }
+
+      /**
+       * Renders the message display component.
+       */
+      function renderMessageDisplay() {
+          if (!messageDisplayContainer) return;
+
+          if (!state.message) {
+              messageDisplayContainer.innerHTML = '';
+              return;
+          }
+
+          let bgColor = '';
+          let borderColor = '';
+          let textColor = '';
+
+          switch (state.messageType) {
+              case 'success':
+                  bgColor = 'bg-green-100';
+                  borderColor = 'border-green-400';
+                  textColor = 'text-green-700';
+                  break;
+              case 'warning':
+                  bgColor = 'bg-yellow-100';
+                  borderColor = 'border-yellow-400';
+                  textColor = 'text-yellow-700';
+                  break;
+              case 'error':
+                  bgColor = 'bg-red-100';
+                  borderColor = 'border-red-400';
+                  textColor = 'text-red-700';
+                  break;
+              default:
+                  bgColor = 'bg-gray-100';
+                  borderColor = 'border-gray-400';
+                  textColor = 'text-gray-700';
+          }
+
+          messageDisplayContainer.innerHTML = `
+              <div class="fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg border-l-4 ${bgColor} ${borderColor} ${textColor} flex items-center justify-between animate-slideIn" id="message-box">
+                  <span>${state.message}</span>
+              </div>
+          `;
+
+          const messageBox = document.getElementById('message-box');
+          messageBox?.addEventListener('click', () => dismissMessage());
+
+          // Auto-dismiss after 2 seconds
+          setTimeout(() => dismissMessage(), 2000);
+      }
+
+      function dismissMessage() {
+          const messageBox = document.getElementById('message-box');
+          if (!messageBox) return;
+          
+          messageBox.classList.add('animate-fadeOut');
+          messageBox.addEventListener('animationend', () => {
+              state.message = '';
+              state.messageType = 'info';
+              renderMessageDisplay();
+          });
+      }
+
+      /**
+       * Renders the modal component.
+       */
+      function renderModal() {
+          if (!modalContainer) return;
+
+          if (!state.modal.isOpen) {
+              modalContainer.innerHTML = '';
+              return;
+          }
+
+          modalContainer.innerHTML = `
+              <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50 p-4" id="modal-overlay">
+                  <div class="bg-white rounded-xl shadow-lg p-6 w-full ${
+                      state.modal.title === "Settings"
+                          ? "max-w-[15rem] sm:max-w-[17rem]"
+                          : "max-w-md"
+                  } transform transition-all duration-300 scale-95 opacity-0 animate-scaleIn" id="modal-content-area">
+                      <div class="flex justify-between items-center mb-4">
+                          <h3 class="text-xl font-semibold text-gray-800">${state.modal.title}</h3>
+                      </div>
+                      <div class="text-gray-700">
+                          ${state.modal.content}
+                      </div>
+                      <div class="mt-6 flex justify-end space-x-3">
+                          ${state.modal.showConfirmButton ? `
+                              <button id="modal-confirm-btn" class="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200 shadow-md">
+                                  ${state.modal.confirmText}
+                              </button>
+                          ` : ''}
+                          <button id="modal-close-btn-bottom" class="px-6 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-200 shadow-md">
+                              Close
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          `;
+
+          document.getElementById('modal-overlay')?.addEventListener('click', (e) => {
+              if (e.target === e.currentTarget) {
+                  closeModal();
+              }
+          });
+          document.getElementById('modal-content-area')?.addEventListener('click', (e) => e.stopPropagation()); // Prevent clicks inside modal from closing it
+          document.getElementById('modal-close-btn-bottom')?.addEventListener('click', closeModal);
+          if (state.modal.showConfirmButton && state.modal.onConfirm) {
+              document.getElementById('modal-confirm-btn')?.addEventListener('click', () => {
+                  state.modal.onConfirm();
+                  closeModal();
+              });
+          }
+      }
+
+      /**
+       * Opens the modal with specified content.
+       */
+      function openModal(title, content, showConfirmButton = false, onConfirm = null, confirmText = "Confirm") {
+          state.modal = {
+              isOpen: true,
+              title,
+              content,
+              showConfirmButton,
+              onConfirm,
+              confirmText,
+          };
+          renderModal();
+      }
+
+      /**
+       * Closes the modal.
+       */
+      function closeModal() {
+          state.modal.isOpen = false;
+          renderModal();
+      }
+
+      /**
+       * Returns the Tailwind CSS class for a given match status.
+       * @param {string} status - The status of the match ('upcoming' | 'active' | 'locked' | 'completed').
+       * @returns {string} The Tailwind CSS background color class.
+       */
+      function getStatusColor(status) {
+          switch (status) {
+              case 'upcoming': return 'bg-gray-400';
+              case 'active': return 'bg-green-500';
+              case 'locked': return 'bg-orange-500';
+              case 'completed': return 'bg-blue-500';
+              default: return 'bg-gray-400';
+          }
+      }
+
+      /**
+       * Returns a user-friendly display string for a given match status.
+       * @param {string} status - The status of the match.
+       * @returns {string} The display string.
+       */
+      function displayStatus(status) {
+          if (status === 'completed') {
+              return 'Completed';
+          } else if (status === 'locked') {
+              return 'Locked';
+          }
+          return status.charAt(0).toUpperCase() + status.slice(1);
+      }
+
+      // --- Data Fetching and Posting Functions ---
+
+      /**
+       * Fetches data from the Google Apps Script.
+       * @param {string} action - The action to perform (e.g., 'getUsers', 'getMatches').
+       * @returns {Promise<Array<object>>} A promise that resolves with the fetched data.
+       */
+      async function fetchData(action) {
+          // setLoading is handled by the calling function (initializeAppData)
+          try {
+              const response = await fetch(`${APPS_SCRIPT_URL}?action=${action}`);
+              if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              const data = await response.json();
+              if (data.error) {
+                  throw new Error(data); // Pass the entire data object if it contains an error
+              }
+              return data;
+          } catch (error) {
+              console.error(`Error fetching ${action}:`, error);
+              // Check if error is an object with a 'message' property
+              const errorMessage = error.message || (error.error && error.error.message) || 'Unknown error';
+              showMessage(`Failed to load data: ${errorMessage}`, 'error');
+              throw error; // Re-throw to allow calling functions to handle
+          }
+      }
+
+      /**
+       * Posts data to the Google Apps Script.
+       * @param {string} action - The action to perform (e.g., 'addUser', 'addMatch').
+       * @param {object} payload - The data to send in the request body.
+       * @returns {Promise<object>} A promise that resolves with the success message.
+       */
+      async function postData(action, payload, suppressSuccessMessage = false) {
+          // setLoading is handled by the calling action function
+          try {
+              const response = await fetch(`${APPS_SCRIPT_URL}?action=${action}`, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'text/plain', // Apps Script expects text/plain for JSON.stringify
+                  },
+                  body: JSON.stringify(payload),
+              });
+              if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              const data = await response.json();
+              if (data.error) {
+                  throw new Error(data); // Pass the entire data object if it contains an error
+              }
+                // Only show success message if not suppressed
+              if (!suppressSuccessMessage) {
+                  showMessage(data.message || 'Operation successful!', 'success');
+              }
+              return data;
+          } catch (error) {
+              console.error(`Error posting ${action}:`, error);
+              // Check if error is an object with a 'message' property
+              const errorMessage = error.message || (error.error && error.error.message) || 'Unknown error';
+              showMessage(`Operation failed: ${errorMessage}`, 'error');
+              throw error; // Re-throw to allow calling functions to handle
+          }
+      }
+
+      // --- Authentication Functions (Event Handlers) ---
+
+      /**
+       * Handles user login.
+       * @param {string} username - The username to log in.
+       * @param {string} password - The password.
+       */
+      async function handleLogin(username, password) {
+          setLoading(true);
+          try {
+              const trimmedUsername = username.trim();
+              const trimmedPassword = password.trim();
+
+              const user = findUserByUsername(trimmedUsername);
+
+              if (!user) {
+                  showMessage("Login failed: User not found.", "error");
+                  return;
+              }
+
+              if (String(user.password).trim() !== trimmedPassword) {
+                  showMessage("Login failed: Incorrect password.", "error");
+                  return;
+              }
+
+              state.currentUser = user;
+              localStorage.setItem('loggedInUserId', user.id);
+              state.welcomeMessageShown = true;
+              showMessage(`Welcome back, ${user.username}!`, 'success');
+              renderHeader();
+              navigateTo('dashboard', true); // Force re-fetch data after login and then render
+          } catch (error) {
+              console.error("Login error:", error);
+              showMessage(`Login failed: ${error.message}`, 'error');
+              state.currentUser = null;
+              localStorage.removeItem('loggedInUserId');
+              state.welcomeMessageShown = false;
+              renderHeader();
+              navigateTo('auth', false);
+          } finally {
+              setLoading(false);
+          }
+      }
+
+      /**
+       * Handles user signup.
+       * @param {string} email - The user's email.
+       * @param {string} username - The desired username.
+       * @param {string} password - The password.
+       */
+      async function handleSignup(email, username, password) {
+          setLoading(true);
+          try {
+              const trimmedEmail = email.trim();
+              const trimmedUsername = username.trim();
+              const trimmedPassword = password.trim();
+
+              if (!trimmedEmail || !trimmedUsername || !trimmedPassword) {
+                  showMessage("Please fill in all fields.", "warning");
+                  return;
+              }
+              if (!trimmedEmail.includes('@') || !trimmedEmail.includes('.')) {
+                  showMessage("Please enter a valid email address.", "warning");
+                  return;
+              }
+
+              if (findUserById(trimmedEmail)) {
+                  showMessage("This email is already registered. Please login or use a different email.", "warning");
+                  return;
+              }
+
+              if (findUserByUsername(trimmedUsername)) {
+                  showMessage("This username is already taken. Please choose another.", "warning");
+                  return;
+              }
+
+              const newUser = {
+                  id: trimmedEmail,
+                  username: trimmedUsername,
+                  password: trimmedPassword,
+                  coins: 1000,
+                  wins: 0,
+                  isAdmin: false,
+                  createdAt: Date.now()
+              };
+
+              // Optimistic UI update for signup
+              state.users.push(newUser);
+              state.currentUser = newUser;
+              localStorage.setItem('loggedInUserId', newUser.id);
+              state.welcomeMessageShown = true;
+              showMessage(`Welcome, ${newUser.username}! Your account has been created.`, 'success');
+              renderHeader();
+              navigateTo('dashboard', true); // Force re-fetch data after signup and then render
+
+              await postData('addUser', newUser);
+              await initializeAppData();
+          } catch (error) {
+              console.error("Signup error:", error);
+              showMessage(`Signup failed: ${error.message}`, 'error');
+              state.users = state.users.filter(u => u.id !== newUser.id); // Revert optimistic update
+              state.currentUser = null;
+              localStorage.removeItem('loggedInUserId');
+              state.welcomeMessageShown = false;
+              renderHeader();
+              renderAuthPage();
+          } finally {
+              setLoading(false);
+          }
+      }
+
+      /**
+       * Logs out the current user.
+       */
+      function handleLogout() {
+          state.currentUser = null;
+          localStorage.removeItem('loggedInUserId');
+          state.welcomeMessageShown = false;
+          showMessage("You have been logged out.", "info");
+          renderHeader();
+          navigateTo('auth', false);
+      }
+
+      // --- Dashboard Event Handlers ---
+      function handleAllianceButtonClick(e) {
+          const target = e.currentTarget;
+          const matchId = target.dataset.matchId;
+          const alliance = target.dataset.alliance;
+
+          // Store the selected alliance in state for the specific match
+          if (!state.selectedAllianceButtons) {
+              state.selectedAllianceButtons = {};
+          }
+          state.selectedAllianceButtons[matchId] = alliance;
+
+          // Apply immediate styling feedback and update disabled state
+          attachDashboardEventListeners(new Set([matchId])); // Only update this specific card
+      }
+
+      function handlePredictionCoinsInput(e) {
+          const matchId = e.target.dataset.matchId;
+          state.inputValues.predictionCoins[matchId] = e.target.value;
+          // Let the browser handle cursor position by not re-rendering on input
+      }
+
+      function handlePlacePredictionClick(e) {
+          const target = e.currentTarget;
+          const matchId = target.dataset.matchId;
+          const coinsInput = mainContentElement.querySelector(`.prediction-coins-input[data-match-id="${matchId}"]`);
+          const selectedAllianceBtn = mainContentElement.querySelector(`.predict-alliance-btn[data-match-id="${matchId}"].border-blue-600, .predict-alliance-btn[data-match-id="${matchId}"].border-red-600`);
+
+          if (coinsInput && selectedAllianceBtn) {
+              const coins = parseInt(coinsInput.value);
+              const alliance = selectedAllianceBtn.dataset.alliance;
+              placePrediction(matchId, alliance, coins);
+              // The clearing of input state is handled in placePrediction
+          } else {
+              showMessage("Please select an alliance and enter coins.", "warning");
+          }
+      }
+
+      // --- Admin Panel Event Handlers ---
+      function handleUpdateMatchStatusClick(e) {
+          state.currentPage = 'admin'; // Ensure current page is admin
+          const matchId = e.currentTarget.dataset.matchId;
+          const status = e.currentTarget.dataset.status;
+          updateMatchStatus(matchId, status);
+      }
+
+      function handleSetMatchWinnerClick(e) {
+          state.currentPage = 'admin';
+          const matchId = e.currentTarget.dataset.matchId;
+          const winner = e.currentTarget.dataset.winner;
+          openModal(
+              "Confirm Winner",
+              `Are you sure you want to set the <strong>${winner.toUpperCase()} Alliance</strong> as the winner for this match? This action will distribute coins.`,
+              true,
+              () => setMatchWinner(matchId, winner),
+              "Set Winner"
+          );
+      }
+
+      function handleAddMatchClick() {
+          state.currentPage = 'admin'; // Ensure current page is admin
+          const newMatchNameInput = document.getElementById('new-match-name');
+          if (newMatchNameInput) {
+              const name = newMatchNameInput.value.trim();
+              if (name) {
+                  addMatch(name);
+                  state.inputValues.newMatchName = { value: '', selectionStart: 0, selectionEnd: 0 }; // Clear input after submission
+                  // Explicitly update the input element to reflect the reset
+                  newMatchNameInput.value = '';
+                  updateAdminPanelElementsContent(); // Re-render admin matches list specifically
+              } else {
+                  showMessage("Match name cannot be empty.", "warning");
+              }
+          }
+      }
+
+      function handleAdjustCoinsClick() {
+          state.currentPage = 'admin'; // Ensure current page is admin
+          const userSelectAdjust = document.getElementById('user-select-adjust');
+          const coinAdjustAmountInput = document.getElementById('coin-adjust-amount');
+          if (userSelectAdjust && coinAdjustAmountInput) {
+              const userId = userSelectAdjust.value;
+              const amount = parseInt(coinAdjustAmountInput.value);
+
+              if (!userId) {
+                  showMessage("Please select a user.", "warning");
+                  return;
+              }
+              if (isNaN(amount) || amount === 0) {
+                  showMessage("Please enter a valid non-zero amount.", "warning");
+                  return;
+              }
+
+              const userToAdjust = findUserById(userId);
+              if (userToAdjust) {
+                  openModal(
+                      "Confirm Coin Adjustment",
+                      `Are you sure you want to ${amount > 0 ? 'add' : 'subtract'} ${Math.abs(amount).toLocaleString()} coins for ${userToAdjust.username}?`,
+                      true,
+                      () => {
+                          adjustUserCoins(userId, amount);
+                          // Reset inputs after confirmation
+                          state.inputValues.coinAdjustAmount = { value: '', selectionStart: 0, selectionEnd: 0 };
+                          state.inputValues.selectedUserAdjust = '';
+                          // Explicitly update the relevant elements to reflect the reset, without forcing a full render
+                          const selectElement = document.getElementById('user-select-adjust');
+                          if(selectElement) selectElement.value = '';
+                          const inputElement = document.getElementById('coin-adjust-amount');
+                          if(inputElement) inputElement.value = '';
+                          renderHeader(); // Re-render header to update coin count if current user's coins changed
+                          updateAdminPanelElementsContent(); // Re-render admin users list specifically
+                      },
+                      "Adjust"
+                  );
+              }
+          }
+      }
+
+      function handleResetAllDataClick() {
+          state.currentPage = 'admin'; // Ensure current page is admin
+          openModal(
+              "Confirm Data Reset",
+              "<strong>WARNING:</strong> This will delete all matches and reset all user coins. This action cannot be undone. Are you sure?",
+              true,
+              resetAllData,
+              "Reset All"
+          );
+      }
+
+      // Specific Admin Panel input handlers to store selection (similar to dashboard)
+      function handleNewMatchNameInput(e) {
+          state.inputValues.newMatchName = {
+              value: e.target.value,
+              selectionStart: e.target.selectionStart,
+              selectionEnd: e.target.selectionEnd
+          };
+      }
+      function handleUserSelectAdjustChange(e) {
+          state.inputValues.selectedUserAdjust = e.target.value;
+      }
+      function handleCoinAdjustAmountInput(e) {
+          state.inputValues.coinAdjustAmount = {
+              value: e.target.value,
+              selectionStart: e.target.selectionStart,
+              selectionEnd: e.target.selectionEnd
+          };
+      }
+
+      // --- Helper Functions ---
+
+      /**
+       * Finds a user by ID from the current state.
+       * @param {string} userId - The ID of the user to find.
+       * @returns {object | undefined} The user object or undefined if not found.
+       */
+      function findUserById(userId) {
+          return state.users.find(u => u.id === userId);
+      }
+
+      /**
+       * Finds a user by username from the current state.
+       * @param {string} username - The username to find.
+       * @returns {object | undefined} The user object or undefined if not found.
+       */
+      function findUserByUsername(username) {
+          return state.users.find(u => u.username.toLowerCase() === username.toLowerCase());
+      }
+
+      /**
+       * Finds a match by ID from the current state.
+       * @param {string} matchId - The ID of the match to find.
+       * @returns {object | undefined} The match object or undefined if not found.
+       */
+      function findMatchById(matchId) {
+          return state.matches.find(m => m.id === matchId);
+      }
+
+      /**
+       * Gets predictions for a specific match from the current state.
+       * @param {string} matchId - The ID of the match.
+       * @returns {Array} An array of predictions for the match.
+       */
+      function getPredictionsForMatch(matchId) {
+          return state.predictions[matchId] || [];
+      }
+
+      /**
+       * Calculates winnings for a player.
+       * @param {number} totalCoins - Total coins placed on the match.
+       * @param {number} playerBet - Coins placed by the player.
+       * @param {number} winningAllianceCoins - Total coins on the winning alliance.
+       * @returns {number} The calculated winnings.
+       */
+      function calculateWinnings(totalCoins, playerBet, winningAllianceCoins) {
+          if (winningAllianceCoins === 0) return 0;
+          return Math.floor(totalCoins * (playerBet / winningAllianceCoins));
+      }
+
+      // --- Data Manipulation Functions (with Optimistic Updates) ---
+
+      /**
+       * Adds a new match via Apps Script (with optimistic update).
+       * @param {string} name - The name of the new match.
+       */
+      async function addMatch(name) {
+          setLoading(true);
+          const newMatch = {
+              id: generateUniqueId(),
+              name: name,
+              status: 'upcoming',
+              blueAllianceTotalCoins: 0,
+              redAllianceTotalCoins: 0,
+              winner: '',
+              createdAt: Date.now()
+          };
+
+          // Optimistic UI update
+          state.optimisticMatches.push(newMatch);
+          state.matches = [...state.matches, newMatch];
+          
+          // Force complete UI refresh
+          forceViewUpdate();
+
+          try {
+              await postData('addMatch', newMatch);
+          } catch (error) {
+              state.optimisticMatches = state.optimisticMatches.filter(m => m.id !== newMatch.id);
+              state.matches = state.matches.filter(m => m.id !== newMatch.id);
+              forceViewUpdate();
+              setLoading(false);
+          }
+      }
+
+      /**
+       * Updates the status of a match via Apps Script (with optimistic update).
+       * @param {string} matchId - The ID of the match to update.
+       * @param {string} newStatus - The new status ('upcoming' | 'active' | 'locked' | 'completed').
+       */
+      async function updateMatchStatus(matchId, newStatus) {
+          setLoading(true);
+          const match = findMatchById(matchId);
+          if (!match) {
+              showMessage("Match not found.", "error");
+              setLoading(false);
+              return;
+          }
+
+          const originalStatus = match.status;
+          const timestamp = Date.now();
+
+          // Store optimistic update with timestamp
+          state.optimisticMatchStatuses[matchId] = {
+              status: newStatus,
+              timestamp: Date.now()
+          };
+
+          // Update UI immediately
+          match.status = newStatus;
+          updateAdminPanelElementsContent();
+          if (state.currentPage === 'dashboard') {
+              updateDashboardMatches();
+          }
+
+          try {
+              await postData('updateMatch', { id: matchId, status: newStatus });
+          } catch (error) {
+              // Revert optimistic update
+              delete state.optimisticMatchStatuses[matchId];
+              match.status = originalStatus;
+              updateAdminPanelElementsContent();
+              if (state.currentPage === 'dashboard') {
+                  updateDashboardMatches();
+              }
+              setLoading(false);
+          }
+      }
+
+      /**
+       * Places a prediction for a match via Apps Script (with optimistic update).
+       * @param {string} matchId - The ID of the match.
+       * @param {string} alliance - The chosen alliance ('blue' | 'red').
+       * @param {number} coins - The number of coins to place.
+       */
+      async function placePrediction(matchId, alliance, coins) {
+          console.log('placePrediction called.');
+          const match = findMatchById(matchId);
+          const user = state.currentUser;
+
+          if (!match || !user) {
+              showMessage("Error: Match or user not found. Please log in.", "error");
+              return;
+          }
+
+          if (coins <= 0 || isNaN(coins)) {
+              showMessage("Please enter a valid positive number of coins.", "warning");
+              return;
+          }
+          if (coins > user.coins) {
+              showMessage("You don't have enough coins for this prediction.", "warning");
+              return;
+          }
+
+          const existingPredictionBeforeOptimistic = getPredictionsForMatch(match.id).find(p => p.userId === user.id);
+          console.log(`[placePrediction] Before optimistic update: existingPrediction for match ${matchId}:`, existingPredictionBeforeOptimistic);
+
+          if (existingPredictionBeforeOptimistic) {
+              showMessage("You have already placed a prediction for this match.", "warning");
+              return;
+          }
+
+          // --- Store original values for potential rollback ---
+          const originalUserCoins = user.coins;
+          const originalMatchBlueCoins = match.blueAllianceTotalCoins;
+          const originalMatchRedCoins = match.redAllianceTotalCoins;
+          const originalPredictionsForMatch = state.predictions[matchId] ? [...state.predictions[matchId]] : [];
+
+
+          // --- Optimistic UI updates (update state only) ---
+          user.coins -= coins;
+          if (alliance === 'blue') {
+              match.blueAllianceTotalCoins += coins;
+          } else {
+              match.redAllianceTotalCoins += coins;
+          }
+          match.optimisticBlueAllianceTotalCoins = match.blueAllianceTotalCoins;
+          match.optimisticRedAllianceTotalCoins = match.redAllianceTotalCoins;
+          match.optimisticMatchTimestamp = Date.now();
+
+          const newPrediction = {
+              id: generateUniqueId(),
+              userId: user.id,
+              username: user.username,
+              matchId: matchId,
+              alliance: alliance,
+              coinsPlaced: coins,
+              timestamp: Date.now(),
+              isOptimistic: true
+          };
+          
+          if (!state.optimisticPredictions[matchId]) {
+              state.optimisticPredictions[matchId] = [];
+          }
+          state.optimisticPredictions[matchId].push(newPrediction);   
+
+          // Store optimistic coin totals
+          state.optimisticMatchCoins[matchId] = {
+              timestamp: Date.now(),
+              blueAllianceTotalCoins: match.blueAllianceTotalCoins,
+              redAllianceTotalCoins: match.redAllianceTotalCoins
+          };
+
+          // --- INSTANT COIN BALANCE UPDATE FOR CURRENT USER ---
+          if (state.currentUser && state.currentUser.id === user.id) {
+              state.currentUser.coins = user.coins;
+              // Also update the coins in state.users for the current user (so polling doesn't revert it)
+              const idx = state.users.findIndex(u => u.id === user.id);
+              if (idx !== -1) {
+                  state.users[idx].coins = user.coins;
+              }
+              // Add an optimisticUserCoinAdjustment so polling respects this value until server confirms
+              state.optimisticUserCoinAdjustments[user.id] = {
+                  coins: user.coins,
+                  timestamp: Date.now()
+              };
+              renderHeader();
+          }
+
+          // Clear the selected alliance for this match *before* triggering UI update
+          if (state.selectedAllianceButtons && state.selectedAllianceButtons[matchId]) {
+              delete state.selectedAllianceButtons[matchId];
+          }
+          // Clear input after submission
+          state.inputValues.predictionCoins[matchId] = { value: '', selectionStart: 0, selectionEnd: 0 };
+
+          // Trigger UI updates based on the updated state
+          renderHeader();
+          updateDashboardMatches(); // This will now use the DocumentFragment approach
+          showMessage("Prediction placed successfully!", "success");
+
+
+          // --- Send data to server in background ---
+          setLoading(true); // Indicate background process
+          try {
+              // Remove the optimistic flag before sending to server
+              const serverPayload = { ...newPrediction };
+              delete serverPayload.isOptimistic;
+              delete serverPayload.timestamp;
+
+              await postData('addPrediction', serverPayload, true);
+              await postData('updateUser', { id: user.id, coins: user.coins }, true);
+              await postData('updateMatch', {
+                  id: match.id,
+                  blueAllianceTotalCoins: match.blueAllianceTotalCoins,
+                  redAllianceTotalCoins: match.redAllianceTotalCoins
+              }, true);
+
+              // Only clear input after successful prediction
+              state.inputValues.predictionCoins[matchId] = { value: '', selectionStart: 0, selectionEnd: 0 };
+
+              // The polling mechanism will pick up the server-confirmed state.
+          } catch (error) {
+              // --- Rollback optimistic updates on error ---
+              user.coins = originalUserCoins;
+              match.blueAllianceTotalCoins = originalMatchBlueCoins;
+              match.redAllianceTotalCoins = originalMatchRedCoins;
+              // Also remove optimistic properties from match if rollback
+              delete match.optimisticBlueAllianceTotalCoins;
+              delete match.optimisticRedAllianceTotalCoins;
+              delete match.optimisticMatchTimestamp;
+
+              state.predictions[matchId] = originalPredictionsForMatch; // Revert predictions array
+
+              // Revert UI to previous state by forcing a re-render of the specific match card
+              renderHeader(); // Revert header coin balance
+              updateDashboardMatches(); // Revert on dashboard
+              showMessage(`Prediction failed: ${error.message}`, 'error');
+          } finally {
+              setLoading(false); // Unset loading after server interaction (success or fail)
+          }
+      }
+
+      /**
+       * Sets the winner of a match and distributes coins via Apps Script (with optimistic update).
+       * @param {string} matchId - The ID of the match.
+       * @param {string} winnerAlliance - The winning alliance ('blue' | 'red').
+       */
+      async function setMatchWinner(matchId, winnerAlliance) {
+          setLoading(true);
+          const match = findMatchById(matchId);
+          if (!match) {
+              showMessage("Match not found.", "error");
+              setLoading(false);
+              return;
+          }
+
+          const originalStates = {
+              matchStatus: match.status,
+              matchWinner: match.winner,
+              userStates: {},
+              timestamp: Date.now()
+          };
+
+          const predictions = getPredictionsForMatch(matchId);
+          const totalAllianceCoins = match.blueAllianceTotalCoins + match.redAllianceTotalCoins;
+          const winningAllianceCoins = winnerAlliance === 'blue' ? match.blueAllianceTotalCoins : match.redAllianceTotalCoins;
+
+          // Calculate and apply optimistic updates for all affected users
+          const userUpdates = [];
+          predictions.forEach(prediction => {
+              const user = findUserById(prediction.userId);
+              if (user) {
+                  originalStates.userStates[user.id] = {
+                      coins: user.coins,
+                      wins: user.wins
+                  };
+
+                  if (prediction.alliance === winnerAlliance) {
+                      const winnings = calculateWinnings(totalAllianceCoins, prediction.coinsPlaced, winningAllianceCoins);
+                      user.coins += winnings;
+                      user.wins += 1;
+                      userUpdates.push({
+                          id: user.id,
+                          coins: user.coins,
+                          wins: user.wins
+                      });
+                  }
+              }
+          });
+
+          // Store optimistic winner update with all related state
+          state.optimisticMatchWinners[matchId] = {
+              winner: winnerAlliance,
+              timestamp: Date.now(),
+              status: 'completed',
+              userUpdates: userUpdates,
+              originalStates: originalStates
+          };
+
+          // Update match state
+          match.winner = winnerAlliance;
+          match.status = 'completed';
+
+          // Update UI - only update relevant components
+          updateAdminPanelElementsContent();
+          if (state.currentPage === 'dashboard') {
+              updateDashboardMatches();
+          }
+          renderHeader();
+
+          try {
+              await postData('updateMatch', { id: matchId, winner: winnerAlliance, status: 'completed' });
+              for (const update of userUpdates) {
+                  await postData('updateUser', update, true);
+              }
+          } catch (error) {
+              // Revert all optimistic updates
+              const optimisticState = state.optimisticMatchWinners[matchId];
+              if (optimisticState) {
+                  match.status = optimisticState.originalStates.matchStatus;
+                  match.winner = optimisticState.originalStates.matchWinner;
+                  
+                  // Revert user states
+                  Object.entries(optimisticState.originalStates.userStates).forEach(([userId, state]) => {
+                      const user = findUserById(userId);
+                      if (user) {
+                          user.coins = state.coins;
+                          user.wins = state.wins;
+                      }
+                  });
+              }
+              
+              delete state.optimisticMatchWinners[matchId];
+              updateAdminPanelElementsContent();
+              if (state.currentPage === 'dashboard') {
+                  updateDashboardMatches();
+              }
+              renderHeader();
+              setLoading(false);
+          }
+      }
+
+      /**
+       * Adjusts coins for a specific user via Apps Script (with optimistic update).
+       * @param {string} userIdToAdjust - The ID of the user whose coins to adjust.
+       * @param {number} amount - The amount to add or subtract.
+       */
+      async function adjustUserCoins(userIdToAdjust, amount) {
+          setLoading(true);
+          const user = findUserById(userIdToAdjust);
+          if (!user) {
+              showMessage("User not found.", "error");
+              setLoading(false);
+              return;
+          }
+
+          const originalCoins = user.coins;
+          const newCoins = Math.max(0, user.coins + amount);
+
+          // Optimistic UI update
+          user.coins = newCoins;
+          // Record the optimistic adjustment in the map with timestamp
+          state.optimisticUserCoinAdjustments[userIdToAdjust] = {
+              coins: newCoins,
+              timestamp: Date.now()
+          };
+          updateAdminPanelElementsContent(); // Trigger targeted update
+          if (state.currentUser && state.currentUser.id === userIdToAdjust) {
+              renderHeader(); // Update header to reflect coin change immediately
+          }
+
+          // Immediately update state.users so that polling/initializeAppData doesn't wipe out the optimistic value
+          state.users = state.users.map(u =>
+              u.id === userIdToAdjust ? { ...u, coins: newCoins } : u
+          );
+
+          try {
+              await postData('updateUser', { id: userIdToAdjust, coins: newCoins });
+              // Do NOT call initializeAppData() here; let polling pick up the server-confirmed value.
+              // setLoading(false) will be handled by polling/initializeAppData.
+          } catch (error) {
+              user.coins = originalCoins; // Revert optimistic update
+              state.users = state.users.map(u =>
+                  u.id === userIdToAdjust ? { ...u, coins: originalCoins } : u
+              );
+              // Remove the optimistic adjustment on error
+              delete state.optimisticUserCoinAdjustments[userIdToAdjust];
+              updateAdminPanelElementsContent(); // Revert on admin
+              if (state.currentUser && state.currentUser.id === userIdToAdjust) {
+                  renderHeader();
+              }
+              setLoading(false); // Stop loading immediately on error
+          }
+      }
+
+      /**
+       * Resets all match data and user coins via Apps Script.
+       * This operation is destructive, so it's safer to block UI and re-fetch after completion.
+       */
+      async function resetAllData() {
+          setLoading(true);
+          try {
+              await postData('resetAllData', {});
+              
+              // Immediately reset state
+              state.matches = [];
+              state.predictions = {};
+              state.optimisticPredictions = {};
+              state.optimisticMatches = [];
+              state.optimisticMatchStatuses = {};
+              state.optimisticMatchWinners = {};
+              state.optimisticMatchCoins = {};
+              
+              // Reset user coins but keep other user data
+              state.users = state.users.map(user => ({
+                  ...user,
+                  coins: 1000,
+                  wins: 0
+              }));
+              
+              // Force complete UI refresh
+              forceViewUpdate();
+              showMessage("All data has been reset successfully!", "success");
+              
+              // Then do a full re-fetch after a delay
+              setTimeout(async () => {
+                  await initializeAppData();
+              }, 2000);
+          } catch (error) {
+              setLoading(false);
+          }
+      }
+
+      // Add this new helper function
+      function forceViewUpdate() {
+          // Force re-render the current view completely
+          switch (state.currentPage) {
+              case 'dashboard':
+                  renderDashboard();
+                  break;
+              case 'admin':
+                  renderAdminPanel();
+                  break;
+              case 'leaderboard':
+                  renderLeaderboard();
+                  break;
+          }
+          // Always update header since it shows user info
+          renderHeader();
+      }
+
+      // --- Event Listener Attachment Functions ---
+
+      /**
+       * Attaches all event listeners for the dashboard page.
+       * @param {Set<string>} [cardIdsToUpdate=null] - Optional. A set of match IDs to specifically re-attach listeners for.
+       * If null, re-attaches for all cards.
+       */
+      function attachDashboardEventListeners(cardIdsToUpdate = null) {
+          let elementsToUpdate;
+          if (cardIdsToUpdate) {
+              elementsToUpdate = Array.from(cardIdsToUpdate).map(id => mainContentElement.querySelector(`[data-match-id="${id}"]`)).filter(Boolean);
+          } else {
+              elementsToUpdate = mainContentElement.querySelectorAll('[data-match-id]');
+          }
+
+          elementsToUpdate.forEach(matchCardElement => {
+              // Alliance buttons
+              matchCardElement.querySelectorAll('.predict-alliance-btn').forEach(button => {
+                  button.removeEventListener('click', handleAllianceButtonClick);
+                  button.addEventListener('click', handleAllianceButtonClick);
+              });
+
+              // Prediction coins input
+              const coinsInput = matchCardElement.querySelector('.prediction-coins-input');
+              if (coinsInput) {
+                  // Only update value if it's stored in state, don't focus
+                  const matchId = coinsInput.dataset.matchId;
+                  coinsInput.value = state.inputValues.predictionCoins[matchId]?.value || '';
+                  coinsInput.removeEventListener('input', handlePredictionCoinsInput);
+                  coinsInput.addEventListener('input', handlePredictionCoinsInput);
+              }
+
+              // Place prediction button
+              const placePredictionBtn = matchCardElement.querySelector('.place-prediction-btn');
+              if (placePredictionBtn) {
+                  placePredictionBtn.removeEventListener('click', handlePlacePredictionClick);
+                  placePredictionBtn.addEventListener('click', handlePlacePredictionClick);
+              }
+          });
+
+          // Re-evaluate button states for all relevant buttons after listeners are attached
+          mainContentElement.querySelectorAll('.predict-alliance-btn').forEach(button => {
+              const matchId = button.dataset.matchId;
+              const alliance = button.dataset.alliance;
+              const isSelected = state.selectedAllianceButtons[matchId] === alliance;
+
+              button.classList.remove('border-blue-600', 'bg-blue-100', 'text-blue-800', 'border-red-600', 'bg-red-100', 'text-red-800');
+              button.classList.remove('border-gray-300', 'text-gray-700', 'hover:bg-blue-50', 'hover:bg-red-50');
+
+              if (isSelected) {
+                  if (alliance === 'blue') {
+                      button.classList.add('border-blue-600', 'bg-blue-100', 'text-blue-800');
+                  } else {
+                      button.classList.add('border-red-600', 'bg-red-100', 'text-red-800');
+                  }
+              } else {
+                  button.classList.add('border-gray-300', 'text-gray-700');
+                  if (alliance === 'blue') {
+                      button.classList.add('hover:bg-blue-50');
+                  } else {
+                      button.classList.add('hover:bg-red-50');
+                  }
+              }
+          });
+
+          // Set disabled state for all place prediction buttons (no interval, just once)
+          mainContentElement.querySelectorAll('.place-prediction-btn').forEach(button => {
+              const matchId = button.dataset.matchId;
+              const coinsInput = mainContentElement.querySelector(`.prediction-coins-input[data-match-id="${matchId}"]`);
+              const selectedAllianceBtn = mainContentElement.querySelector(`.predict-alliance-btn[data-match-id="${matchId}"].border-blue-600, .predict-alliance-btn[data-match-id="${matchId}"].border-red-600`);
+              const coins = parseInt(coinsInput?.value);
+
+              button.disabled = !selectedAllianceBtn || isNaN(coins) || coins <= 0 || (state.currentUser?.coins || 0) < coins;
+          });
+
+          // Add input and alliance change listeners to update the button state immediately
+          mainContentElement.querySelectorAll('.prediction-coins-input').forEach(input => {
+              input.removeEventListener('input', updatePlacePredictionBtnState);
+              input.addEventListener('input', updatePlacePredictionBtnState);
+          });
+          mainContentElement.querySelectorAll('.predict-alliance-btn').forEach(btn => {
+              btn.removeEventListener('click', updatePlacePredictionBtnState);
+              btn.addEventListener('click', updatePlacePredictionBtnState);
+          });
+      }
+
+      // Helper to update the disabled state of the place prediction button for a match
+      function updatePlacePredictionBtnState(e) {
+          // Find the matchId from the event target or its parent
+          let matchId = e.target.dataset.matchId;
+          if (!matchId && e.target.closest('[data-match-id]')) {
+              matchId = e.target.closest('[data-match-id]').dataset.matchId;
+          }
+          if (!matchId) return;
+          const coinsInput = document.querySelector(`.prediction-coins-input[data-match-id="${matchId}"]`);
+          const selectedAllianceBtn = document.querySelector(`.predict-alliance-btn[data-match-id="${matchId}"].border-blue-600, .predict-alliance-btn[data-match-id="${matchId}"].border-red-600`);
+          const placePredictionBtn = document.querySelector(`.place-prediction-btn[data-match-id="${matchId}"]`);
+          const coins = parseInt(coinsInput?.value);
+
+          if (placePredictionBtn) {
+              placePredictionBtn.disabled = !selectedAllianceBtn || isNaN(coins) || coins <= 0 || (state.currentUser?.coins || 0) < coins;
+          }
+      }
+
+      /**
+       * Attaches event listeners for Admin Panel match buttons and input fields.
+       * @param {string} matchId - The ID of the match to attach listeners for.
+       */
+      function attachAdminMatchEventListeners(matchId) {
+          const matchDiv = mainContentElement.querySelector(`.py-4[data-match-id="${matchId}"]`);
+          if (!matchDiv) return;
+
+          matchDiv.querySelectorAll('.update-match-status-btn').forEach(button => {
+              button.removeEventListener('click', handleUpdateMatchStatusClick);
+              button.addEventListener('click', handleUpdateMatchStatusClick);
+          });
+
+          matchDiv.querySelectorAll('.set-match-winner-btn').forEach(button => {
+              button.removeEventListener('click', handleSetMatchWinnerClick);
+              button.addEventListener('click', handleSetMatchWinnerClick);
+          });
+      }
+
+      // --- Rendering Functions ---
+
+      /**
+       * Renders the header section, including user information or login/signup buttons.
+       */
+      function renderHeader() {
+          if (!userInfoElement) return;
+
+          if (state.currentUser) {
+              userInfoElement.innerHTML = `
+                  <div class="flex flex-row md:flex-col w-full md:w-auto justify-center md:justify-end items-center md:items-end text-center md:text-right gap-x-4 gap-y-0">
+                      <span class="text-lg font-semibold leading-tight">${state.currentUser.username}</span>
+                      <span class="text-sm leading-tight">
+                          Coins: ${state.currentUser.coins?.toLocaleString() || 0}
+                      </span                      <span class="text-sm leading-tight">Wins: ${state.currentUser.wins ||  0}</span>
+                  </div>
+              `;
+              // Show/hide admin button based on user's admin status
+              if (state.currentUser.isAdmin) {
+                  navAdminBtn.classList.remove('hidden');
+              } else {
+                  navAdminBtn.classList.add('hidden');
+              }
+          } else {
+              userInfoElement.innerHTML = `
+                  <div class="flex flex-row gap-x-2">
+                      <button id="login-btn-header" class="px-3 py-1 bg-indigo-700 hover:bg-indigo-800 text-white rounded-md text-sm transition duration-200 shadow-md">Login</button>
+                      <button id="signup-btn-header" class="px-3 py-1 bg-purple-700 hover:bg-purple-800 text-white rounded-md text-sm transition duration-200 shadow-md">Sign Up</button>
+                  </div>
+              `;
+              document.getElementById('login-btn-header')?.addEventListener('click', () => {
+                  state.showLoginForm = true;
+                  navigateTo('auth', false);
+              });
+              document.getElementById('signup-btn-header')?.addEventListener('click', () => {
+                  state.showLoginForm = false;
+                  navigateTo('auth', false);
+              });
+              navAdminBtn.classList.add('hidden'); // Always hide if no user
+          }
+      }
+
+      /**
+       * Renders the Login/Signup page.
+       */
+      function renderAuthPage() {
+          if (!mainContentElement) return;
+
+          mainContentElement.innerHTML = `
+              <div class="flex items-start md:items-center justify-center min-h-[calc(100vh-180px)] p-4">
+                  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-md text-center mt-8 md:mt-0">
+                      <h2 class="text-3xl font-bold text-gray-800 mb-6">
+                          ${state.showLoginForm ? 'Login' : 'Sign Up'}
+                      </h2>
+
+                      ${state.showLoginForm ? `
+                          <form id="login-form" class="space-y-4">
+                              <div>
+                                  <input type="text" id="login-username" placeholder="Username" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-transparent" required />
+                              </div>
+                              <div>
+                                  <input type="password" id="login-password" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-transparent" required />
+                              </div>
+                              <button type="submit" class="w-full px-6 py-3 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition duration-200 shadow-md">
+Login
+                              </button>
+                          </form>
+                          <p class="mt-4 text-gray-600">
+                              Don't have an account? <button id="switch-to-signup" class="text-indigo-600 hover:underline font-medium">Sign Up</button>
+                          </p>
+                      ` : `
+                          <form id="signup-form" class="space-y-4">
+                              <div>
+                                  <input type="email" id="signup-email" placeholder="Email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-transparent" required />
+                              </div>
+                              <div>
+                                  <input type="text" id="signup-username" placeholder="Username" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-transparent" required />
+                              </div>
+                              <div>
+                                  <input type="password" id="signup-password" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-transparent" required />
+                              </div>
+                              <button type="submit" class="w-full px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition duration-200 shadow-md">
+                                  Sign Up
+                              </button>
+                          </form>
+                          <p class="mt-4 text-gray-600">
+                              Already have an account? <button id="switch-to-login" class="text-purple-600 hover:underline font-medium">Login</button>
+                          </p>
+                      `}
+                  </div>
+              </div>
+          `;
+
+          // Restore input values and re-add listeners
+          const loginUsernameInput = document.getElementById('login-username');
+          const loginPasswordInput = document.getElementById('login-password');
+
+          if (loginUsernameInput) {
+              loginUsernameInput.value = state.inputValues.loginUsername.value;
+              if (document.activeElement === loginUsernameInput) {
+                  loginUsernameInput.setSelectionRange(state.inputValues.loginUsername.selectionStart, state.inputValues.loginUsername.selectionEnd);
+              }
+              loginUsernameInput.addEventListener('input', (e) => {
+                  state.inputValues.loginUsername = {
+                      value: e.target.value,
+                      selectionStart: e.target.selectionStart,
+                      selectionEnd: e.target.selectionEnd
+                  };
+              });
+          }
+          if (loginPasswordInput) {
+              loginPasswordInput.value = state.inputValues.loginPassword.value;
+              if (document.activeElement === loginPasswordInput) {
+                  loginPasswordInput.setSelectionRange(state.inputValues.loginPassword.selectionStart, state.inputValues.loginPassword.selectionEnd);
+              }
+              loginPasswordInput.addEventListener('input', (e) => {
+                  state.inputValues.loginPassword = {
+                      value: e.target.value,
+                      selectionStart: e.target.selectionStart,
+                      selectionEnd: e.target.selectionEnd
+                  };
+              });
+          }
+          const loginForm = document.getElementById('login-form');
+          loginForm?.addEventListener('submit', (e) => {
+              e.preventDefault();
+              const username = loginUsernameInput?.value?.trim();
+              const password = loginPasswordInput?.value?.trim();
+              handleLogin(username, password);
+          });
+          document.getElementById('switch-to-signup')?.addEventListener('click', () => {
+              state.showLoginForm = false;
+              renderAuthPage();
+          });
+
+          const signupEmailInput = document.getElementById('signup-email');
+          const signupUsernameInput = document.getElementById('signup-username');
+          const signupPasswordInput = document.getElementById('signup-password');
+          if (signupEmailInput) {
+              signupEmailInput.value = state.inputValues.signupEmail.value;
+              if (document.activeElement === signupEmailInput) {
+                  signupEmailInput.setSelectionRange(state.inputValues.signupEmail.selectionStart, state.inputValues.signupEmail.selectionEnd);
+              }
+              signupEmailInput.addEventListener('input', (e) => {
+                  state.inputValues.signupEmail = {
+                      value: e.target.value,
+                      selectionStart: e.target.selectionStart,
+                      selectionEnd: e.target.selectionEnd
+                  };
+              });
+          }
+          if (signupUsernameInput) {
+              signupUsernameInput.value = state.inputValues.signupUsername.value;
+              if (document.activeElement === signupUsernameInput) {
+                  signupUsernameInput.setSelectionRange(state.inputValues.signupUsername.selectionStart, state.inputValues.signupUsername.selectionEnd);
+              }
+              signupUsernameInput.addEventListener('input', (e) => {
+                  state.inputValues.signupUsername = {
+                      value: e.target.value,
+                      selectionStart: e.target.selectionStart,
+                      selectionEnd: e.target.selectionEnd
+                  };
+              });
+          }
+          if (signupPasswordInput) {
+              signupPasswordInput.value = state.inputValues.signupPassword.value;
+              if (document.activeElement === signupPasswordInput) {
+                  signupPasswordInput.setSelectionRange(state.inputValues.signupPassword.selectionStart, state.inputValues.signupPassword.selectionEnd);
+              }
+              signupPasswordInput.addEventListener('input', (e) => {
+                  state.inputValues.signupPassword = {
+                      value: e.target.value,
+                      selectionStart: e.target.selectionStart,
+                      selectionEnd: e.target.selectionEnd
+                  };
+              });
+          }
+          document.getElementById('signup-form')?.addEventListener('submit', async (e) => {
+              e.preventDefault();
+              const email = signupEmailInput.value.trim();
+              const username = signupUsernameInput.value.trim();
+              const password = signupPasswordInput.value.trim();
+              await handleSignup(email, username, password);
+          });
+          document.getElementById('switch-to-login')?.addEventListener('click', () => {
+              state.showLoginForm = true;
+              renderAuthPage();
+          });
+      }
+      /**
+       * Renders a single match card.
+       * @param {object} match - The match object to render.
+       * @returns {string} The HTML string for the match card.
+       */
+      function renderMatchCard(match) {
+          // This function renders the *entire* card, including the outer div.
+          // It's used for initial render of the dashboard or when a new card is added.
+          return `
+              <div class="bg-white rounded-xl shadow-lg p-6 mb-6 transform transition-all duration-300 hover:scale-[1.01] hover:shadow-xl" data-match-id="${match.id}">
+                  ${renderMatchCardContentOnly(match)}
+              </div>
+          `;
+      }
+
+      /**
+       * Renders the inner content of a single match card (excluding the outermost div).
+       * This is used for updating existing cards to avoid re-rendering the outer container.
+       * @param {object} match - The match object to render.
+       * @returns {string} The HTML string for the inner content of the match card.
+       */
+      function renderMatchCardContentOnly(match) {
+          const loggedIn = state.currentUser !== null;
+          let userPrediction = null;
+
+          if (loggedIn) {
+              userPrediction = getPredictionsForMatch(match.id).find(p => p.userId === state.currentUser.id);
+              if (!userPrediction && state.optimisticPredictions[match.id]) {
+                  userPrediction = state.optimisticPredictions[match.id].find(p => p.userId === state.currentUser.id);
+              }
+          }
+
+          // Determine if the current button should be visually selected
+          const isBlueSelected = state.selectedAllianceButtons[match.id] === 'blue';
+          const isRedSelected = state.selectedAllianceButtons[match.id] === 'red';
+
+          const blueButtonClasses = `predict-alliance-btn flex-1 px-4 py-2 rounded-lg border-2 transition duration-200 ${
+              isBlueSelected
+                  ? 'border-blue-600 bg-blue-100 text-blue-800'
+                  : 'border-gray-300 text-gray-700 hover:bg-blue-50'
+          }`;
+          const redButtonClasses = `predict-alliance-btn flex-1 px-4 py-2 rounded-lg border-2 transition duration-200 ${
+              isRedSelected
+                  ? 'border-red-600 bg-red-100 text-red-800'
+                  : 'border-gray-300 text-gray-700 hover:bg-red-50'
+          }`;
+
+          // Always use the value from state.inputValues.predictionCoins to preserve input value
+          const coinsInputValue = state.inputValues.predictionCoins[match.id]?.value || '';
+
+          return `
+              <div class="flex justify-between items-center mb-4">
+                  <h2 class="text-2xl font-semibold text-gray-800">${match.name}</h2>
+                  <span class="px-3 py-1 text-sm font-medium text-white rounded-full ${getStatusColor(match.status)}">
+                      ${displayStatus(match.status)}
+                  </span>
+              </div>
+              <div class="mb-4">
+                  <p class="text-lg text-gray-700 mb-2">
+                      <span class="font-bold text-blue-600">Blue Alliance:</span> <span class="blue-coins-display">${match.blueAllianceTotalCoins?.toLocaleString() || 0}</span> coins
+                  </p>
+                  <p class="text-lg text-gray-700">
+                      <span class="font-bold text-red-600">Red Alliance:</span> <span class="red-coins-display">${match.redAllianceTotalCoins?.toLocaleString() || 0}</span> coins
+                  </p>
+              </div>
+              ${match.status === 'completed' && match.winner ? `
+                  <div class="mt-4 p-3 bg-gradient-to-r from-emerald-100 to-teal-100 rounded-lg text-center font-bold text-lg text-emerald-800 winner-display">
+                      Winner: <span class="${match.winner === 'blue' ? 'text-blue-700' : 'text-red-700'}">${match.winner.toUpperCase()} Alliance</span>
+                  </div>
+              ` : ''}
+              ${loggedIn && match.status === 'active' && !userPrediction ? `
+                  <div class="mt-4 p-4 bg-gray-50 rounded-lg prediction-input-section">
+                      <h3 class="text-lg font-medium text-gray-800 mb-3">Place Your Prediction</h3>
+                      <div class="flex space-x-2 md:space-x-4 mb-4">
+                          <button data-match-id="${match.id}" data-alliance="blue" class="${blueButtonClasses} text-sm">
+                              Blue Alliance
+                          </button>
+                          <button data-match-id="${match.id}" data-alliance="red" class="${redButtonClasses} text-sm">
+                              Red Alliance
+                          </button>
+                      </div>
+                      <div class="relative">
+                          <input
+                              type="number"
+                              placeholder="Coins to wager"
+                              class="prediction-coins-input w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-transparent mb-4 text-sm"
+                              data-match-id="${match.id}"
+                              value="${state.inputValues.predictionCoins[match.id]?.value || ''}"
+                              min="0" 
+                              max="${state.currentUser?.coins || 0}"
+                              autocomplete="off"
+                          />
+                      </div>
+                      <button
+                          class="place-prediction-btn w-full px-6 py-2 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md text-sm"
+                          data-match-id="${match.id}"
+                      >
+                          Place Prediction
+                      </button>
+                  </div>
+              ` : ''}
+              ${loggedIn && userPrediction ? `
+                  <div class="mt-4 p-3 rounded-lg text-center font-medium user-prediction-display
+                      ${match.status === 'completed' ?
+                          (userPrediction.alliance === match.winner ? 'bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-800' : 'bg-red-100 text-red-800') :
+                       match.status === 'locked' ? 'bg-orange-100 text-orange-800' :
+                       'bg-purple-50 text-purple-800'
+                      }">
+                      ${match.status === 'completed' ?
+                          (() => {
+                              const totalAllianceCoins = match.blueAllianceTotalCoins + match.redAllianceTotalCoins;
+                              const winningAllianceCoins = match.winner === 'blue' ? match.blueAllianceTotalCoins : match.redAllianceTotalCoins;
+                              const winnings = calculateWinnings(totalAllianceCoins, userPrediction.coinsPlaced, winningAllianceCoins);
+                              if (userPrediction.alliance === match.winner) {
+                                  return `You won <strong>${winnings.toLocaleString()}</strong> coins.`;
+                              } else {
+                                  return `You lost <strong>${userPrediction.coinsPlaced.toLocaleString()}</strong> coins.`;
+                              }
+                          })()
+                      : match.status === 'locked' ?
+                          (() => {
+                              const totalAllianceCoins = match.blueAllianceTotalCoins + match.redAllianceTotalCoins;
+                              const potentialWinningAllianceCoins = userPrediction.alliance === 'blue' ? match.blueAllianceTotalCoins : match.redAllianceTotalCoins;
+                              const potentialReturn = calculateWinnings(totalAllianceCoins, userPrediction.coinsPlaced, potentialWinningAllianceCoins);
+                              return `You will earn <strong>${potentialReturn.toLocaleString()}</strong> coins if the <strong>${userPrediction.alliance.toUpperCase()} Alliance</strong> wins.`;
+                          })()
+                      : `You predicted <span class="font-bold">${userPrediction.coinsPlaced?.toLocaleString() || 0}</span> coins on the <span class="font-bold">${userPrediction.alliance?.toUpperCase()} Alliance</span>.`
+                      }
+                  </div>
+              ` : ''}
+              ${!loggedIn && match.status === 'active' ? `
+                  <div class="mt-4 p-3 bg-gray-100 rounded-lg text-center text-gray-600">
+                      Log in to place predictions!
+                  </div>
+              ` : ''}
+              ${match.status === 'upcoming' && loggedIn ? `
+                  <div class="mt-4 p-3 bg-gray-100 rounded-lg text-center text-gray-600">
+                      Predictions for this match will open soon!
+                  </div>
+              ` : ''}
+              ${match.status === 'locked' && !match.winner && loggedIn && !userPrediction ? `
+                  <div class="mt-4 p-3 bg-orange-100 rounded-lg text-center text-orange-800">
+                      This match is locked. No new predictions can be placed.
+                  </div>
+              ` : ''}
+          `;
+      }
+
+
+      /**
+       * Renders the Dashboard page.
+       */
+      function renderDashboard() {
+          if (!mainContentElement) return;
+
+          const sortedMatches = [...state.matches].sort((a, b) => {
+              const nameA = String(a.name);
+              const nameB = String(b.name);
+              const matchA = nameA.match(/^([A-Za-z]+)(\d+)$/);
+              const matchB = nameB.match(/^([A-Za-z]+)(\d+)$/);
+
+              if (matchA && matchB) {
+                  const letterA = matchA[1];
+                  const numberA = parseInt(matchA[2]);
+                  const letterB = matchB[1];
+                  const numberB = parseInt(matchB[2]);
+
+                  const letterCompare = letterA.localeCompare(letterB);
+                  if (letterCompare !== 0) {
+                      return letterCompare;
+                  }
+                  return numberB - numberA;
+              }
+              return nameA.localeCompare(b.name);
+          });
+
+          mainContentElement.innerHTML = `
+              <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Current Matches</h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="match-cards-container">
+                  ${sortedMatches.length === 0 
+                      ? `<div class="col-span-full">
+                            <p class="mx-auto text-center text-gray-600 text-lg" style="max-width: 500px;">No matches available at the moment. Check back later!</p>
+                         </div>`
+                      : sortedMatches.map(match => renderMatchCard(match)).join('')
+                  }
+              </div>
+          `;
+
+          attachDashboardEventListeners();
+      }
+
+      /**
+       * Updates only the dynamic content within the Dashboard, avoiding full re-renders.
+       */
+      function updateDashboardMatches() {
+          const matchCardsContainer = document.getElementById('match-cards-container');
+          if (!matchCardsContainer) {
+              renderDashboard();
+              return;
+          }
+
+          // Store focused element info
+          const focusedElement = document.activeElement;
+          const focusedMatchId = focusedElement?.dataset?.matchId;
+          const focusedInputState = {
+              value: focusedElement?.value || '',
+              selectionStart: focusedElement?.selectionStart || 0,
+              selectionEnd: focusedElement?.selectionEnd || 0,
+          };
+          const wasFocused = focusedElement?.classList.contains('prediction-coins-input');
+
+          const sortedMatches = [...state.matches].sort((a, b) => {
+              const nameA = String(a.name);
+              const nameB = String(b.name);
+              const matchA = nameA.match(/^([A-Za-z]+)(\d+)$/);
+              const matchB = nameB.match(/^([A-Za-z]+)(\d+)$/);
+
+              if (matchA && matchB) {
+                  const letterA = matchA[1];
+                  const numberA = parseInt(matchA[2]);
+                  const letterB = matchB[1];
+                  const numberB = parseInt(matchB[2]);
+
+                  const letterCompare = letterA.localeCompare(letterB);
+                  if (letterCompare !== 0) {
+                      return letterCompare;
+                  }
+                  return numberB - numberA;
+              }
+              return nameA.localeCompare(b.name);
+          });
+
+          matchCardsContainer.innerHTML = sortedMatches.length === 0
+              ? `<div class="col-span-full">
+                   <p class="mx-auto text-center text-gray-600 text-lg" style="max-width: 500px;">No matches available at the moment. Check back later!</p>
+                 </div>`
+              : sortedMatches.map(match => renderMatchCard(match)).join('');
+
+          attachDashboardEventListeners();
+
+          // Only restore focus if the input was explicitly focused by user
+          if (wasFocused && focusedMatchId) {
+              const newFocusedElement = document.querySelector(`.prediction-coins-input[data-match-id="${focusedMatchId}"]`);
+              if (newFocusedElement) {
+                  newFocusedElement.focus();
+                  if (focusedInputState.value !== undefined) {
+                      newFocusedElement.value = focusedInputState.value;
+                  }
+              }
+          }
+      }
+
+      /**
+       * Renders the Leaderboard page.
+       */
+      function renderLeaderboard() {
+          if (!mainContentElement) return;
+
+          const sortedUsers = [...state.users].sort((a, b) => {
+              if (b.coins !== a.coins) {
+                  return b.coins - a.coins;
+              }
+              if (b.wins !== a.wins) {
+                  return b.wins - a.wins;
+              }
+              return a.username.localeCompare(b.username);
+          });
+
+          mainContentElement.innerHTML = `
+              <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Leaderboard</h2>
+              <div class="bg-white rounded-xl shadow-lg p-6">
+                  <div class="overflow-x-auto"> <table class="min-w-full divide-y divide-gray-200">
+                          <thead class="bg-gray-50">
+                              <tr>
+                                  <th scope="col" class="px-4 py-3 md:px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">Rank</th>
+                                  <th scope="col" class="px-4 py-3 md:px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
+                                  <th scope="col" class="px-4 py-3 md:px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Coins</th>
+                                  <th scope="col" class="px-4 py-3 md:px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">Wins</th>
+                              </tr>
+                          </thead>
+                          <tbody class="bg-white divide-y divide-gray-200">
+                              ${sortedUsers.map((user, index) => `
+                                  <tr class="${state.currentUser && user.id === state.currentUser.id ? 'bg-indigo-50 font-semibold' : 'hover:bg-gray-50'}">
+                                      <td class="px-4 py-4 md:px-6 whitespace-nowrap text-sm text-gray-900">${index + 1}</td>
+                                      <td class="px-4 py-4 md:px-6 whitespace-nowrap text-sm text-gray-900">${user.username} ${state.currentUser && user.id === state.currentUser.id ? '(You)' : ''}</td>
+                                      <td class="px-4 py-4 md:px-6 whitespace-nowrap text-sm text-gray-900">${user.coins?.toLocaleString() || 0}</td>
+                                      <td class="px-4 py-4 md:px-6 whitespace-nowrap text-sm text-gray-900">${user.wins || 0}</td>
+                                  </tr>
+                              `).join('')}
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          `;
+      }
+
+      /**
+       * Renders the Admin Panel page.
+       */
+      function renderAdminPanel() {
+          if (!mainContentElement) return;
+
+          if (!state.currentUser || !state.currentUser.isAdmin) {
+              renderAuthPage();
+              showMessage("Access Denied: You must be an administrator to view this page.", "error");
+              return;
+          }
+
+          // Only set innerHTML if the admin panel is not already rendered
+          if (!mainContentElement.querySelector('#admin-matches-container')) {
+              mainContentElement.innerHTML = `
+                  <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Admin Panel</h2>
+
+                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div class="bg-white rounded-xl shadow-lg p-6">
+                          <h3 class="text-2xl font-semibold text-gray-800 mb-4">Manage Matches</h3>
+
+                          <div class="mb-6">
+                              <h4 class="text-xl font-medium text-gray-700 mb-3">Add New Match</h4>
+                              <input type="text" id="new-match-name" placeholder="Enter match name" class="w-full p-3 border border-gray-300 rounded-lg mb-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" required/>
+                              <button id="add-match-btn" class="w-full px-6 py-3 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600 transition duration-200 shadow-md">Add Match</button>
+                          </div>
+
+                          <div class="divide-y divide-gray-200" id="admin-matches-container">
+                              </div>
+                      </div>
+
+                      <div class="bg-white rounded-xl shadow-lg p-6">
+                          <h3 class="text-2xl font-semibold text-gray-800 mb-4">Manage Users</h3>
+
+                          <div class="mb-6">
+                              <h4 class="text-xl font-medium text-gray-700 mb-3">Adjust User Coins</h4>
+                              <select id="user-select-adjust" class="w-full p-3 border border-gray-300 rounded-lg mb-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent">
+                                  <option value="">Select User</option>
+                                  ${state.users.map(user => `<option value="${user.id}">${user.username}</option>`).join('')}
+                              </select>
+                              <input type="number" id="coin-adjust-amount" placeholder="Amount to add/subtract" class="w-full p-3 border border-gray-300 rounded-lg mb-3 focus:ring-2 focus:ring-indigo-400 focus:border-transparent" />
+                              <button id="adjust-coins-btn" class="w-full px-6 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition duration-200 shadow-md">Adjust Coins</button>
+                          </div>
+
+                          <div class="mb-6">
+                              <h4 class="text-xl font-medium text-gray-700 mb-3">Reset All Data</h4>
+                              <button id="reset-all-data-btn" class="w-full px-6 py-3 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition duration-200 shadow-md">Reset All Matches & User Coins</button>
+                          </div>
+
+                          <div class="divide-y divide-gray-200" id="admin-user-list-container">
+                              <h4 class="text-xl font-medium text-gray-700 mb-3">User List</h4>
+                              ${state.users.map(user => `
+                                  <div class="py-3 flex justify-between items-center" data-user-id="${user.id}">
+                                      <div>
+                                          <p class="text-lg font-medium text-gray-800">${user.username} ${user.isAdmin ? '(Admin)' : ''}</p>
+                                          <p class="text-sm text-gray-600 user-coins-display">Coins: ${user.coins?.toLocaleString() || 0} | Wins: ${user.wins || 0}</p>
+                                      </div>
+                                  </div>
+                              `).join('')}
+                          </div>
+                      </div>
+                  </div>
+              `;
+          }
+
+          // Attach admin-specific event listeners for the static elements (only once)
+          document.getElementById('add-match-btn')?.addEventListener('click', handleAddMatchClick);
+          document.getElementById('adjust-coins-btn')?.addEventListener('click', handleAdjustCoinsClick);
+          document.getElementById('reset-all-data-btn')?.addEventListener('click', handleResetAllDataClick);
+
+          // Re-attach input listeners for admin panel too (these are always re-attached as they are managed by state.inputValues)
+          let newMatchNameInput = document.getElementById('new-match-name');
+          if (newMatchNameInput) {
+              newMatchNameInput.value = state.inputValues.newMatchName.value;
+              if (document.activeElement === newMatchNameInput) { // Preserve cursor position if focused
+                  newMatchNameInput.setSelectionRange(state.inputValues.newMatchName.selectionStart, state.inputValues.newMatchName.selectionEnd);
+              }
+              newMatchNameInput.removeEventListener('input', handleNewMatchNameInput);
+              newMatchNameInput.addEventListener('input', handleNewMatchNameInput);
+          }
+
+          let userSelectAdjustElement = document.getElementById('user-select-adjust');
+          if (userSelectAdjustElement) {
+              userSelectAdjustElement.value = state.inputValues.selectedUserAdjust;
+              userSelectAdjustElement.removeEventListener('change', handleUserSelectAdjustChange);
+              userSelectAdjustElement.addEventListener('change', handleUserSelectAdjustChange);
+          }
+          let coinAdjustAmountInput = document.getElementById('coin-adjust-amount');
+          if (coinAdjustAmountInput) {
+              coinAdjustAmountInput.value = state.inputValues.coinAdjustAmount.value;
+              if (document.activeElement === coinAdjustAmountInput) { // Preserve cursor position if focused
+                  coinAdjustAmountInput.setSelectionRange(state.inputValues.coinAdjustAmount.selectionStart, state.inputValues.coinAdjustAmount.selectionEnd);
+              }
+              coinAdjustAmountInput.removeEventListener('input', handleCoinAdjustAmountInput);
+              coinAdjustAmountInput.addEventListener('input', handleCoinAdjustAmountInput);
+          }
+
+          // Now, update the dynamic parts (user list and match list)
+          updateAdminPanelElementsContent();
+      }
+
+      /**
+       * Updates only the dynamic content within the Admin Panel, avoiding full re-renders.
+       */
+      function updateAdminPanelElementsContent() {
+          const userListContainer = document.getElementById('admin-user-list-container');
+          const matchesContainer = document.getElementById('admin-matches-container');
+
+          // Update user list within Admin Panel
+          if (userListContainer) {
+              const currentUserId = document.getElementById('user-select-adjust')?.value;
+              const newOptionsHtml = `<option value="">Select User</option>` +
+                                     state.users.map(user => `<option value="${user.id}">${user.username}</option>`).join('');
+
+              const userSelectAdjust = document.getElementById('user-select-adjust');
+              if (userSelectAdjust) { // Check if element exists before manipulating
+                  if (userSelectAdjust.innerHTML !== newOptionsHtml) {
+                      userSelectAdjust.innerHTML = newOptionsHtml;
+                  }
+                  userSelectAdjust.value = state.inputValues.selectedUserAdjust; // Ensure it reflects the state after updates
+              }
+
+              // Perform targeted updates on existing user elements
+              state.users.forEach(user => {
+                  const userDiv = userListContainer.querySelector(`[data-user-id="${user.id}"]`);
+                  if (userDiv) {
+                      const coinsP = userDiv.querySelector('.user-coins-display');
+                      if (coinsP) {
+                          coinsP.innerHTML = `Coins: ${user.coins?.toLocaleString() || 0} | Wins: ${user.wins || 0}`;
+                      }
+                  } else {
+                      // If userDiv doesn't exist, it's a new user, add it.
+                       const tempDiv = document.createElement('div');
+                       tempDiv.innerHTML = `
+                           <div class="py-3 flex justify-between items-center" data-user-id="${user.id}">
+                               <div>
+                                   <p class="text-lg font-medium text-gray-800">${user.username} ${user.isAdmin ? '(Admin)' : ''}</p>
+                                   <p class="text-sm text-gray-600 user-coins-display">Coins: ${user.coins?.toLocaleString() || 0} | Wins: ${user.wins || 0}</p>
+                               </div>
+                           </div>
+                       `;
+                       userListContainer.appendChild(tempDiv.firstElementChild);
+                  }
+              });
+              // Remove deleted users
+              Array.from(userListContainer.children).forEach(child => {
+                  const userId = child.dataset.userId;
+                  if (userId && !state.users.some(u => u.id === userId)) {
+                      child.remove();
+                  }
+              });
+          }
+
+          // Update match list within Admin Panel (targeted updates)
+          if (matchesContainer) {
+              const sortedMatches = [...state.matches].sort((a, b) => {
+                  const nameA = String(a.name);
+                  const nameB = String(b.name);
+                  const matchA = nameA.match(/^([A-Za-z]+)(\d+)$/);
+                  const matchB = nameB.match(/^([A-Za-z]+)(\d+)$/);
+
+                  if (matchA && matchB) {
+                      const letterA = matchA[1];
+                      const numberA = parseInt(matchA[2]);
+                      const letterB = matchB[1];
+                      const numberB = parseInt(matchB[2]);
+
+                      const letterCompare = letterA.localeCompare(letterB);
+                      if (letterCompare !== 0) {
+                          return letterCompare;
+                      }
+                      return numberB - numberA;
+                  }
+                  return nameA.localeCompare(b.name);
+              });
+
+              // Keep track of existing match elements to remove old ones later
+              const existingMatchElements = new Map();
+              matchesContainer.querySelectorAll('[data-match-id]').forEach(el => {
+                  existingMatchElements.set(el.dataset.matchId, el);
+              });
+
+              // Clear existing matches to re-add them in sorted order
+              matchesContainer.innerHTML = '';
+
+              sortedMatches.forEach(newMatchData => {
+                  const tempDiv = document.createElement('div');
+                  tempDiv.innerHTML = `
+                      <div class="py-4" data-match-id="${newMatchData.id}">
+                          ${generateAdminMatchCardContent(newMatchData)}
+                      </div>
+                  `;
+                  matchesContainer.appendChild(tempDiv.firstElementChild);
+                  attachAdminMatchEventListeners(newMatchData.id); // Re-attach listeners for newly added element
+              });
+
+              // No need to remove elements explicitly here since innerHTML was cleared
+          }
+      }
+
+
+      /**
+       * Helper function to generate the inner HTML for an admin match card.
+       * Used for both initial rendering and targeted updates.
+       * @param {object} match - The match object.
+       * @returns {string} The HTML string.
+       */
+      function generateAdminMatchCardContent(match) {
+          return `
+              <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-1 md:mb-2">
+                  <h4 class="text-lg font-medium text-gray-800 mb-1 md:mb-0">${match.name}</h4>
+                  <span class="px-2 py-1 text-xs font-medium text-white rounded-full ${getStatusColor(match.status)}">
+                      ${displayStatus(match.status)}
+                  </span>
+              </div>
+              <p class="text-sm text-gray-600 mb-2">Blue: <span class="blue-coins-display">${match.blueAllianceTotalCoins?.toLocaleString() || 0}</span> | Red: <span class="red-coins-display">${match.redAllianceTotalCoins?.toLocaleString() || 0}</span></p>
+              ${match.winner ? `<p class="text-sm font-bold text-emerald-700 winner-display">Winner: ${match.winner.toUpperCase()}</p>` : ''}
+
+              <div class="mt-3 flex flex-wrap gap-2">
+                  ${match.status === 'upcoming' ? `
+                      <button data-match-id="${match.id}" data-status="active" class="update-match-status-btn px-4 py-2 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 transition duration-200">Set Active</button>
+                  ` : ''}
+                  ${match.status === 'active' ? `
+                      <button data-match-id="${match.id}" data-status="locked" class="update-match-status-btn px-4 py-2 bg-orange-500 text-white rounded-lg text-sm hover:bg-orange-600 transition duration-200">Lock Predictions</button>
+                  ` : ''}
+                  ${(match.status === 'active' || match.status === 'locked') && !match.winner ? `
+                      <button data-match-id="${match.id}" data-winner="blue" class="set-match-winner-btn px-4 py-2 bg-blue-700 text-white rounded-lg text-sm hover:bg-blue-800 transition duration-200">Set Blue Winner</button>
+                      <button data-match-id="${match.id}" data-winner="red" class="set-match-winner-btn px-4 py-2 bg-red-700 text-white rounded-lg text-sm hover:bg-red-800 transition duration-200">Set Red Winner</button>
+                  ` : ''}
+                  ${match.status === 'completed' ? `
+                      <span class="text-gray-500 text-sm italic">Match Completed</span>
+                  ` : ''}
+              </div>
+
+              <div class="mt-4 border-t border-gray-100 pt-3">
+                  <h5 class="text-md font-medium text-gray-700 mb-2">Predictions for ${match.name}:</h5>
+                  ${getPredictionsForMatch(match.id).length === 0 ? `
+                      <p class="text-sm text-gray-500">No predictions yet.</p>
+                  ` : `
+                      <ul class="list-disc list-inside text-sm text-gray-700">
+                          ${getPredictionsForMatch(match.id).map(p => {
+                              const user = findUserById(p.userId);
+                              return `<li>${user ? user.username : 'Unknown User'} predicted ${p.coinsPlaced?.toLocaleString() || 0} coins on ${p.alliance?.toUpperCase()} Alliance</li>`;
+                          }).join('')}
+                      </ul>
+                  `}
+              </div>
+          `;
+      }
+
+      /**
+       * Updates UI elements based on current state. This is called after data is fetched
+       * to avoid full page re-renders if only parts of the data changed.
+       */
+      function updateUIElements() {
+          renderHeader(); // Always update header (coins, user status can change)
+
+          // Update main content based on the current page
+          if (state.currentPage === 'dashboard') {
+              updateDashboardMatches(); // Targeted update for dashboard
+          } else if (state.currentPage === 'leaderboard') {
+              renderLeaderboard(); // Leaderboard always does full render for simplicity
+          } else if (state.currentPage === 'admin') {
+              updateAdminPanelElementsContent(); // Targeted update for admin
+          } else if (state.currentPage === 'scouting') {
+              renderScouting(); 
+          }
+          // No action for 'auth' as it's a static form
+      }
+
+      /**
+       * Navigates to a different page and renders its content.
+       * For polling, only `updateUIElements()` is called, not this full render.
+       * @param {string} page - The page to navigate to ('dashboard' | 'leaderboard' | 'admin' | 'auth').
+       * @param {boolean} [reFetchData=true] - Whether to re-fetch all data before rendering.
+       */
+      function navigateTo(page, reFetchData = true) {
+          const oldPage = state.currentPage;
+          state.currentPage = page;
+
+          // Remove active state from all nav buttons first
+          navDashboardBtn.classList.remove('active');
+          navLeaderboardBtn.classList.remove('active');
+          navScoutingBtn.classList.remove('active');
+          navAdminBtn.classList.remove('active');
+
+          // Always perform full render if the page actually changes
+          if (oldPage !== page || !mainContentElement.innerHTML || page === 'auth') {
+              // Remove old page transition class
+              mainContentElement.classList.remove('page-transition');
+              
+              // Trigger reflow to restart animation
+              void mainContentElement.offsetWidth;
+              
+              // Add page transition class
+              mainContentElement.classList.add('page-transition');
+
+              switch (page) {
+                  case 'dashboard':
+                      renderDashboard();
+                      navDashboardBtn.classList.add('active');
+                      break;
+                  case 'leaderboard':
+                      renderLeaderboard();
+                      navLeaderboardBtn.classList.add('active');
+                      break;
+                  case 'scouting':
+                      renderScouting();
+                      navScoutingBtn.classList.add('active'); // <-- highlight scouting tab
+                      break;
+                  case 'admin':
+                      renderAdminPanel();
+                      navAdminBtn.classList.add('active');
+                      break;
+                  case 'auth':
+                      renderAuthPage();
+                      break;
+              }
+          }
+
+          if (reFetchData && page !== 'scouting') {
+              initializeAppData();
+          }
+      }
+
+      // Event Listeners for Navigation
+      navDashboardBtn.addEventListener('click', () => navigateTo('dashboard', true));
+      navLeaderboardBtn.addEventListener('click', () => navigateTo('leaderboard', true));
+      navScoutingBtn.addEventListener('click', () => navigateTo('scouting', false));
+      navAdminBtn.addEventListener('click', () => navigateTo('admin', true));
+
+
+      // Initial setup on page load
+      document.addEventListener('DOMContentLoaded', async () => {
+          // First load will trigger a full render via navigateTo and initializeAppData
+          await initializeAppData();
+          startPollingForUpdates();
+          // Determine initial page to render based on current state or default to dashboard
+          if (!state.currentUser) {
+              navigateTo('auth', false);
+          } else {
+              navigateTo('dashboard', false); // Render dashboard but don't re-fetch data immediately as initializeAppData already did
+          }
+      });
+
+      // Settings Modal HTML
+      function renderSettingsModal(showPasswordForm = false) {
+          openModal(
+              "Settings",
+              showPasswordForm
+              ? `
+                  <form id="change-password-form" class="space-y-3">
+                      <div>
+                          <input type="password" id="current-password" placeholder="Current Password" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-transparent" required />
+                      </div>
+                      <div>
+                          <input type="password" id="new-password" placeholder="New Password" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-transparent" required />
+                      </div>
+                      <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition duration-200 shadow-md">Change Password</button>
+                  </form>
+              `
+              : `
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="absolute top-5 right-5">
+                            <button id="dark-mode-btn" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                ${state.isDarkMode ? 
+                                    `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                                    </svg>` :
+                                    `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                                    </svg>`
+                                }
+                            </button>
+                        </div>
+                    </div>
+                <div class="relative">
+                    <div class="space-y-4">
+                        ${state.currentUser ? `
+                            <button id="change-password-btn" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition duration-200 shadow-md">Change Password</button>
+                            <button id="logout-btn" class="w-full px-4 py-2 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition duration-200 shadow-md">Log Out</button>
+                        ` : `
+                            <button id="login-btn" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition duration-200 shadow-md">Login</button>
+                            <button id="signup-btn" class="w-full px-4 py-2 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition duration-200 shadow-md">Sign Up</button>
+                        `}
+                    </div>
+                </div>
+              `
+          );
+
+          if (!showPasswordForm) {
+              document.getElementById('dark-mode-btn')?.addEventListener('click', () => {
+                  toggleDarkMode();
+                  renderSettingsModal(false);
+              });
+              if (state.currentUser) {
+                  document.getElementById('change-password-btn')?.addEventListener('click', () => {
+                      renderSettingsModal(true);
+                  });
+                  document.getElementById('logout-btn')?.addEventListener('click', () => {
+                      closeModal();
+                      handleLogout();
+                  });
+              } else {
+                  document.getElementById('login-btn')?.addEventListener('click', () => {
+                      closeModal();
+                      state.showLoginForm = true;
+                      navigateTo('auth', false);
+                  });
+                  document.getElementById('signup-btn')?.addEventListener('click', () => {
+                      closeModal();
+                      state.showLoginForm = false;
+                      navigateTo('auth', false);
+                  });
+              }
+          } else {
+              document.getElementById('change-password-form')?.addEventListener('submit', async (e) => {
+                  e.preventDefault();
+                  const currentPassword = document.getElementById('current-password').value.trim();
+                  const newPassword = document.getElementById('new-password').value.trim();
+                  if (!state.currentUser) return;
+                  if (String(state.currentUser.password).trim() !== currentPassword) {
+                      showMessage("Current password is incorrect.", "error");
+                      return;
+                  }
+                  if (!newPassword || newPassword.length < 4) {
+                      showMessage("New password must be at least 4 characters.", "warning");
+                      return;
+                  }
+                  state.currentUser.password = newPassword;
+                  await postData('updateUser', { id: state.currentUser.id, password: newPassword });
+                  showMessage("Password changed successfully!", "success");
+                  closeModal();
+              });
+          }
+      }
+
+      document.getElementById('settings-btn')?.addEventListener('click', () => renderSettingsModal(false));
+
+      // --- Dark Mode Functions ---
+      function toggleDarkMode() {
+          state.isDarkMode = !state.isDarkMode;
+          localStorage.setItem('darkMode', state.isDarkMode);
+          document.documentElement.classList.toggle('dark', state.isDarkMode);
+      }
+
+      // Initialize dark mode on page load
+      document.documentElement.classList.toggle('dark', state.isDarkMode);
+
+      // QR Code generation helper functions
+      function generateQRCode(text) {
+          const qrcode = new QRCode({
+              width: 256,
+              height: 256,
+              data: text,
+          });
+          
+          return qrcode.svg();
+      }
+
+      // Define sections before renderScouting function
+      const sections = [
+          {
+              title: "Prematch",
+              fields: [
+                  { name: "scouter1", title: "Scouter 1 Name & Initial", type: "text", required: true, preserve: true },
+                  { name: "scouter2", title: "Scouter 2 Name & Initial", type: "text", required: true, preserve: true },
+                  { name: "matchNumber", title: "Match Number", type: "number", required: true, preserve: true },
+                  { name: "robot", title: "Robot", type: "select", options: ["Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3"], required: true, defaultValue: "Red 1", preserve: true },
+                  { name: "teamNumber", title: "Team Number", type: "number", required: true },
+                  { name: "noShow", title: "No Show", type: "boolean" },
+                  { name: "preload", title: "Preload", type: "boolean", defaultValue: true, required: true }
+              ]
+          },
+          {
+              title: "Autonomous",
+              fields: [
+                  { name: "startingLocation", title: "Starting Location", type: "select", options: ["-", "Processor Side", "Middle", "Non Processor Side", "Not Observed"], defaultValue: "unsure" },
+                  { name: "leave", title: "Leave?", type: "boolean" },
+                  { name: "coralL1Auto", title: "Coral L1", type: "counter" },
+                  { name: "coralL2Auto", title: "Coral L2", type: "counter" },
+                  { name: "coralL3Auto", title: "Coral L3", type: "counter" },
+                  { name: "coralL4Auto", title: "Coral L4", type: "counter" },
+                  { name: "algaeProcessorAuto", title: "Algae Processor", type: "counter" },
+                  { name: "algaeRemovalAuto", title: "Algae Removal", type: "counter" },
+                  { name: "algaeShotAuto", title: "Algae Shot", type: "counter", tooltip: "Amount of algae scored into the net by a robot" }
+              ]
+          },
+          {
+              title: "Teleop",
+              fields: [
+                  { name: "coralL1Teleop", title: "Coral L1", type: "counter" },
+                  { name: "coralL2Teleop", title: "Coral L2", type: "counter" },
+                  { name: "coralL3Teleop", title: "Coral L3", type: "counter" },
+                  { name: "coralL4Teleop", title: "Coral L4", type: "counter" },
+                  { name: "coralMissed", title: "Coral Missed", type: "counter" },
+                  { name: "algaeProcessor", title: "Algae Processor", type: "counter" },
+                  { name: "algaeRemoval", title: "Algae Removal", type: "counter" },
+                  { name: "algaeShot", title: "Algae Shot", type: "counter", tooltip: "Amount of algae scored into the net by a robot" },
+                  { name: "pickupLocation", title: "Where can it pick up coral?", type: "select", options: ["-", "Ground", "Source", "Both", "Not Attempted"], defaultValue: "-" }
+              ]
+          },
+          {
+              title: "Postmatch",
+              fields: [
+                  { name: "attemptedBefore20", title: "Attempted before 20 seconds", type: "boolean" },
+                  { name: "cage", title: "Cage", type: "select", options: ["-", "Deep Cage", "Shallow Cage", "Park", "Not Attempted"], defaultValue: "-" },
+                  { name: "driverSkill", title: "Driver Skill", type: "select", options: ["-", "Not Effective", "Average", "Very Effective", "Not Observed"], defaultValue: "-" },
+                  { name: "defenseRating", title: "Defense Rating", type: "select", options: ["-", "Not Effective", "Average", "Very Effective", "Not Observed"], defaultValue: "-" },
+                  { name: "robotProblems", title: "Robot Problems", type: "select", options: ["Tipped Over", "Died (Comments)", "Both", "None"], defaultValue: "None" },
+                  { name: "card", title: "Yellow/Red Card", type: "boolean" },
+                  { name: "penaltyPoints", title: "Penalty Points", type: "number", defaultValue: "", tooltip: "Located in the opponents side of the score card" },
+                  { name: "coopertitionBonus", title: "Coopertition Bonus", type: "boolean" },
+                  { name: "autoRP", title: "Auto RP", type: "boolean" },
+                  { name: "coralRP", title: "Coral RP", type: "boolean" },
+                  { name: "bargeRP", title: "Barge RP", type: "boolean" },
+                  { name: "winLoss", title: "Win/Loss", type: "select", options: ["Not Observed", "Win", "Loss", "Tie"], defaultValue: "Not Observed" },
+                  { name: "accurate", title: "All information is accurate", type: "boolean", defaultValue: true },
+                  { name: "comments", title: "Comments", type: "text" }
+              ]
+          }
+      ];
+
+      function renderScouting() {
+          if (!mainContentElement) return;
+
+          // Only render and reset form if it hasn't been rendered before or if manually reset
+          if (!mainContentElement.querySelector('.scouting-container') || state.hasScoutingRendered === false) {
+              // Reset the form state
+              const resetState = {};
+              sections.forEach(section => {
+                  section.fields.forEach(field => {
+                      if (field.preserve) {
+                          resetState[field.name] = field.defaultValue || '';
+                      } else {
+                          resetState[field.name] = field.defaultValue || (field.type === 'counter' ? 0 : '');
+                      }
+                  });
+              });
+              state.inputValues.scoutingData = resetState;
+              state.hasScoutingRendered = true;
+              
+              // Render the full form
+              mainContentElement.innerHTML = `
+                  <div class="container mx-auto !px-2">
+                      <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Scouting Form</h2>
+                      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 scouting-container">
+                          ${sections.map(section => `
+                              <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                                  <h3 class="text-xl font-semibold mb-6 text-gray-800 border-b pb-2">${section.title}</h3>
+                                  <div class="space-y-5">
+                                      ${section.fields.map(field => {
+                                          const value = state.inputValues.scoutingData[field.name] || field.defaultValue || '';
+                                          switch(field.type) {
+                                              case 'text':
+                                                  return `
+                                                      <div class="form-group">
+                                                          <label class="block text-sm font-medium text-gray-700 mb-2 ${field.name.includes('scouter') ? 'inline-flex items-center space-x-1' : ''}">
+                                                              <span>${field.title}</span>
+                                                              ${field.name.includes('scouter') ? `
+                                                                  <span class="tooltip-icon relative align-middle ml-1">
+                                                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-400 hover:text-gray-600">
+                                                                          <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                                                      </svg>
+                                                                      <div class="tooltip-text absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-700 text-white text-xs rounded w-max z-10">
+                                                                          e.g. Noot Z
+                                                                      </div>
+                                                                  </span>
+                                                              ` : ''}
+                                                          </label>
+                                                          <input type="text" name="${field.name}" value="${value}" 
+                                                              class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                                              autocomplete="off">
+                                                      </div>`;
+                                              case 'number':
+                                                  return `
+                                                      <div class="form-group">
+                                                          <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                              <span class="inline-flex items-center relative">
+                                                                  ${field.title}
+                                                                  ${field.tooltip ? `
+                                                                      <span class="tooltip-icon relative align-middle ml-1">
+                                                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-400 hover:text-gray-600">
+                                                                              <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                                                          </svg>
+                                                                          <div class="tooltip-text absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-700 text-white text-xs rounded w-max z-10">
+                                                                              ${field.tooltip}
+                                                                          </div>
+                                                                      </span>
+                                                                  ` : ''}
+                                                              </span>
+                                                          </label>
+                                                          <input type="number" name="${field.name}" value="${value}"
+                                                              class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                                                              autocomplete="off">
+                                                      </div>`;
+                                              case 'select':
+                                                  return `
+                                                      <div class="form-group">
+                                                          <label class="block text-sm font-medium text-gray-700 mb-2">${field.title}</label>
+                                                          <select name="${field.name}" 
+                                                              class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                                                              ${field.options.map(opt => `<option value="${opt}" ${value === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+                                                          </select>
+                                                      </div>`;
+                                              case 'boolean':
+                                                  return `
+                                                      <div class="form-group">
+                                                          <label class="inline-flex items-center space-x-3 cursor-pointer">
+                                                              <input type="checkbox" name="${field.name}" ${value ? 'checked' : ''}
+                                                                  class="relative appearance-none w-5 h-5 border-2 border-gray-300 rounded 
+                                                                  checked:bg-blue-600 checked:border-blue-600
+                                                                  focus:outline-none focus:ring-2 focus:ring-blue-200 
+                                                                  transition-colors cursor-pointer
+                                                                  after:content-[''] after:absolute after:left-[4px] after:top-[1px]
+                                                                  after:w-[10px] after:h-[10px]
+                                                                  after:border-white after:border-[0_2px_2px_0]
+                                                                  checked:after:rotate-45
+                                                                  checked:after:scale-100 after:scale-0
+                                                                  after:transition-transform"
+                                                                  data-type="boolean">
+                                                      <span class="text-sm font-medium text-gray-700 dark:text-gray-300">${field.title}</span>
+                                                  </label>
+                                              </div>`;
+                                          case 'counter':
+                                              return `
+                                                  <div class="form-group">
+                                                      <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                          <span class="inline-flex items-center relative">
+                                                              ${field.title}
+                                                              ${field.tooltip ? `
+                                                                  <span class="tooltip-icon relative align-middle ml-1">
+                                                                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-400 hover:text-gray-600">
+                                                                          <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                                                      </svg>
+                                                                      <div class="tooltip-text absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-700 text-white text-xs rounded w-max z-10">
+                                                                          ${field.tooltip}
+                                                                      </div>
+                                                                  </span>
+                                                              ` : ''}
+                                                          </span>
+                                                      </label>
+                                                      <div class="flex items-center justify-center space-x-1">
+                                                          <button type="button" class="counter-minus w-8 h-8 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded transition-colors flex items-center justify-center"
+                                                              data-field="${field.name}"><span class="transform translate-y-[-1px]">-</span></button>
+                                                          <div class="w-16 h-8 bg-gray-100 dark:bg-gray-800 rounded flex items-center justify-center select-none">
+                                                              <input type="number" name="${field.name}" value="${value || 0}" 
+                                                                  class="w-full text-center bg-transparent border-0 p-0 focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pointer-events-none"
+                                                                  autocomplete="off" readonly>
+                                                          </div>
+                                                          <button type="button" class="counter-plus w-8 h-8 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded transition-colors flex items-center justify-center"
+                                                              data-field="${field.name}"><span class="transform translate-y-[-1px]">+</span></button>
+                                                      </div>
+                                                  </div>`;
+                                    }
+                                }).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="mt-8 mb-20 flex justify-center space-x-4">
+                    <button id="reset-form" 
+                        class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors shadow-lg hover:shadow-xl">
+                        Reset Form
+                    </button>
+                    <button id="submit-form" 
+                        class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors shadow-lg hover:shadow-xl">
+                        Generate QR
+                    </button>
+                </div>
+            </div>
+        `;
+
+          // Update Penalty Points to be number type
+          const penaltyPoints = sections.find(s => s.title === "Postmatch")
+              .fields.find(f => f.name === "penaltyPoints");
+          if (penaltyPoints) {
+              penaltyPoints.type = "number";
+          }
+
+          attachScoutingEventListeners();
+      }
+
+// Update attachScoutingEventListeners to properly handle counter buttons and form actions
+function attachScoutingEventListeners() {
+    // Counter buttons
+    mainContentElement.querySelectorAll('.counter-minus, .counter-plus').forEach(btn => {
+        btn.removeEventListener('click', handleCounterClick);
+        btn.addEventListener('click', handleCounterClick);
+    });
+
+    // Input, select, and checkbox fields
+    mainContentElement.querySelectorAll('[name]').forEach(input => {
+        input.removeEventListener('change', handleInputChange);
+        input.addEventListener('change', handleInputChange);
+    });
+
+    // Reset form button
+    const resetBtn = document.getElementById('reset-form');
+    if (resetBtn) {
+        resetBtn.removeEventListener('click', handleFormReset);
+        resetBtn.addEventListener('click', handleFormReset);
+    }
+
+    // Submit form button
+    const submitBtn = document.getElementById('submit-form');
+    if (submitBtn) {
+        submitBtn.removeEventListener('click', handleFormSubmit);
+        submitBtn.addEventListener('click', handleFormSubmit);
+    }
+}
+
+// Add these new handler functions
+function handleCounterClick(e) {
+    const fieldName = e.currentTarget.dataset.field;
+    const input = e.currentTarget.parentElement.querySelector(`input[name="${fieldName}"]`);
+    const currentValue = parseInt(input.value) || 0;
+    const newValue = Math.max(0, currentValue + (e.currentTarget.classList.contains('counter-minus') ? -1 : 1));
+    input.value = newValue;
+    state.inputValues.scoutingData[fieldName] = newValue;
+}
+
+function handleInputChange(e) {
+    const input = e.currentTarget;
+    if (input.dataset.type === 'boolean') {
+        state.inputValues.scoutingData[input.name] = input.checked;
+    } else {
+        state.inputValues.scoutingData[input.name] = input.value;
+    }
+}
+
+function handleFormReset() {
+    state.hasScoutingRendered = false; // This will force a re-render
+    renderScouting();
+    showMessage('Form has been reset', 'success');
+}
+
+// Add handleFormSubmit function to handle QR code generation
+function handleFormSubmit() {
+    // Get all fields in order
+    const allFormFields = sections.flatMap(section => 
+        section.fields.map(field => field.name)
+    );
+    
+    const formData = {};
+    // Initialize all fields with empty strings first
+    allFormFields.forEach(fieldName => {
+        formData[fieldName] = '';
+    });
+    
+    // Then fill in actual values
+    mainContentElement.querySelectorAll('[name]').forEach(element => {
+        if (element.type === 'checkbox') {
+            formData[element.name] = element.checked;
+        } else {
+            formData[element.name] = element.value || '';
+        }
+    });
+
+    // Create data string with tabs
+    const dataString = allFormFields
+        .map(fieldName => `${formData[fieldName]}`)
+        .join('\t');
+
+    openModal(
+        'QR Code',
+        `<div class="flex flex-col items-center">
+            <div class="bg-white p-4 rounded-xl shadow-lg mb-4" id="qrcode"></div>
+            <button id="copy-data" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                Copy Data
+            </button>
+        </div>`
+    );
+
+    // Create QR code after modal renders
+    setTimeout(() => {
+        const qrcodeElement = document.getElementById('qrcode');
+        if (qrcodeElement) {
+            qrcodeElement.innerHTML = '';
+            new QRCode(qrcodeElement, {
+                text: dataString,
+                width: 256,
+                height: 256
+            });
+        }
+
+        document.getElementById('copy-data')?.addEventListener('click', () => {
+            navigator.clipboard.writeText(dataString);
+            showMessage('Data copied to clipboard!', 'success');
+        });
+    }, 100);
+}
+      }
+    </script>
+  </body>
+</html>
